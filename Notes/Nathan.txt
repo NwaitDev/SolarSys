@@ -1,0 +1,28 @@
+TODO :
+- choisir des positions initiales pour les astres (planètes/satellites)
+- ????
+
+
+Notes : 
+    Dans l'api https://api.le-systeme-solaire.net/rest/bodies/ :
+        - perihelion (périehélie) : (en km) distance au soleil quand l'astre est au plus proche de sa trajectoire
+        - aphelion (aphélie): (en km) distance au soleil quand l'astre est au plus loin de sa trajectoire
+        - semimajorAxis (demi grand-axe): (en km) demi grand-axe de l'ellipse trajectoire
+        - excentricity (excentricité) : valeur caractérisant à quel point la trajectoire est elliptique
+            si l'excentricité est 0, c'est un cercle, 
+            si c'est 0 < x < 1 c'est une ellipse,  
+            si c'est 1, c'est une parabole
+            si c'est x > 1, c'est une hyperbole
+        - inclination  : (en degrés) angle formé par le plan dans lequel gravite cet objet avec celui dans lequel gravite la terre
+        - escape : vitesse en m.s-1 pour que l'astre quitte son orbite
+        - meanRadius : le rayon moyen de l'astre
+        - equaRadius : le rayon à l'équateur
+        - polarRadius : le rayon au pôle
+        - sideralOrbit : nombre de jours terrestres pour une révolution autour de l'astre associé
+        - sideralRotation : durée d'un jour sur cet astre (en heures)
+        - aroundPlanet : {name, apiAddr}
+        - axialTilt (obliquité): angle formé par la direction de la trajectoire orbitale et l'axe de rotation de l'astre
+        - argPeriapsis : An argument of periapsis of 0° means that the orbiting body will be at its closest 
+            approach to the central body at the same moment that it crosses the plane of reference from South to North. 
+            An argument of periapsis of 90° means that the orbiting body will reach periapsis 
+            at its northmost distance from the plane of reference
