@@ -26,3 +26,11 @@ Notes :
             approach to the central body at the same moment that it crosses the plane of reference from South to North. 
             An argument of periapsis of 90° means that the orbiting body will reach periapsis 
             at its northmost distance from the plane of reference
+
+    Anomalie moyenne : https://en.wikipedia.org/wiki/Mean_anomaly
+    Definition d'une ellipse : https://astronomy.swin.edu.au/cosmos/E/Ellipse
+
+    Ellipse :
+        semifociDist = moitié de la distance entre les foci de l'ellipse 
+        (On peut tracer une ellipse à l'aide de 3 données : la coord du point focus1,
+         celle du point focus2 et la somme des distances entre chacun des points de l'ellipse et les deux foci (c'est une constante))
