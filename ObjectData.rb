@@ -3,13 +3,9 @@
 ################################################
 require 'uri'
 require 'net/http'
+require 'json'
 
-uri = URI('https://api.nasa.gov/planetary/apod')
-params = { :api_key => 'ChPtAQBf3t1E9yJBdunlr1ePOpfDQSoItfBswfmT' }
-uri.query = URI.encode_www_form(params)
 
-res = Net::HTTP.get_response(uri)
-puts res.body if res.is_a?(Net::HTTPSuccess)
 
 ################################################
 ################################################
@@ -31,29 +27,98 @@ class CelestialBody
 end
 
 class Sun < CelestialBody
-    def initialize()
-        super("Sun",self, [0,0], 100, 1, 0, 1, 1, true)
+    def initialize
+        super("Sun",self, [0,0], 1392684, 1 , 220e6 , 27*24 ,0 ,true)
     end
 end
+
+
+class Moon < CelestialBody
+
+    def initialize(dirName , referenceName , moonName, referenceObject)
+        moonName = moonName.gsub(" ", "_").gsub("/", "_BS_") 
+        file = File.open(dirName + "/" + referenceName + "/moon/" +  moonName )
+        file_data = file.read
+        struct_data = JSON.parse(file_data)
+        @name = struct_data["englishName"]
+        @referenceFrame = referenceObject
+        @diameter = 2* struct_data["meanRadius"]
+        @scale = 1
+        @revolutionPeriod = struct_data["sideralOrbit"]
+        @periodOfRotation = struct_data["sideralRotation"]  
+        @distanceFromOrigin =  (struct_data["perihelion"] +  struct_data["aphelion"])/2   
+    end
+end
+
 
 class Planet < CelestialBody
 
     @@sun = Sun.new()
-    
-    def initialize()
 
-        
+    def getMoonByName(name)
+        @moonList.detect do |m| m.name.upcase == name.upcase end
+    end
+    
+    def initialize(dirName , planetName)
+        file = File.open(dirName + "/" + planetName + "/" +  planetName + ".json" )
+        file_data = file.read
+        struct_data = JSON.parse(file_data)
+        @name = struct_data["englishName"]
+        @referenceFrame = @@sun
+        @diameter = 2* struct_data["meanRadius"]
+        @scale = 1
+        @revolutionPeriod = struct_data["sideralOrbit"]
+        @periodOfRotation = struct_data["sideralRotation"]
+        @moonList = []
+        entries = Dir.entries(dirName + "/" + planetName + "/moon/" )
+        @distanceFromOrigin =  (struct_data["perihelion"] +  struct_data["aphelion"])/2  
+        for entry in entries
+            if entry != "." && entry != ".."
+                m_curr = Moon.new(dirName , planetName, entry, self)
+                @moonList.push(m_curr)
+            end 
+        end
     end
 end
+
+
+mars = Planet.new("bodies", "mars")
+p mars
 
 class SolarSystem 
-    
     attr_reader :sunList, :planetList
 
-    def initialize(bodiesFile)
-        @sunList = "bla bla"
-        @planetList = []
-
+    def getPlanetByName(name)
+        planetList.detect do |p| p.name.upcase == name.upcase end
     end
 
+    def getSunByName(name)
+        sunList.detect do |s| s.name.upcase == name.upcase end
+    end
+        
+    def initialize(bodyDir)
+        @sunList = [Sun.new()]
+        @planetList = []
+        entries = Dir.entries(bodyDir)
+        for entry in entries
+            if entry != "." && entry != ".."
+                curr_p = Planet.new(bodyDir , entry)
+                @planetList.push(curr_p)
+            end
+        end
+    end
 end
+
+s = SolarSystem.new("bodies")
+earth = s.getPlanetByName("earth")
+moon = earth.getMoonByName("moon")
+
+p earth
+puts "\n\n\n"
+p moon
+
+
+puts "\n\n\n"
+
+sun = s.getSunByName("sun")
+p sun
