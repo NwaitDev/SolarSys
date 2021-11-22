@@ -31,12 +31,29 @@ class CelestialBody
 end
 
 class Sun < CelestialBody
-
     def initialize()
         super("Sun",self, [0,0], 100, 1, 0, 1, 1, true)
     end
 end
 
-$SolarSystemPlanets=[]
-$sun = Sun.new()
-$SolarSystemPlanets.push(CelestialBody.new("TestPlanet", $sun, [300,0], 10, 5, 1000, 365.25, 24, true))
+class Planet < CelestialBody
+
+    @@sun = Sun.new()
+    
+    def initialize()
+
+        
+    end
+end
+
+class SolarSystem 
+    
+    attr_reader :sunList, :planetList
+
+    def initialize(bodiesFile)
+        @sunList = "bla bla"
+        @planetList = []
+
+    end
+
+end
