@@ -1,6 +1,3 @@
-################################################
-########### Using Nasa API for fun #############
-################################################
 require 'uri'
 require 'net/http'
 require 'json'
@@ -52,13 +49,20 @@ end
 
 
 class Planet < CelestialBody
+    attr_reader :moonList
 
     @@sun = Sun.new()
 
     def getMoonByName(name)
         @moonList.detect do |m| m.name.upcase == name.upcase end
     end
-    
+
+    def getMoonNames
+        names = []
+        @moonList.each do | m | names.push(m.name) end
+        names
+    end
+
     def initialize(dirName , planetName)
         file = File.open(dirName + "/" + planetName + "/" +  planetName + ".json" )
         file_data = file.read
@@ -82,11 +86,16 @@ class Planet < CelestialBody
 end
 
 
-mars = Planet.new("bodies", "mars")
-p mars
 
 class SolarSystem 
     attr_reader :sunList, :planetList
+
+    def getPlanetNames()
+        @planetList.inject([]) do |  list , p | list.push(p.name) end
+    end
+
+    def getSunNames()
+        @planetList.inject([]) do | list , s| list.push(s.name) end
 
     def getPlanetByName(name)
         planetList.detect do |p| p.name.upcase == name.upcase end
@@ -110,15 +119,20 @@ class SolarSystem
 end
 
 s = SolarSystem.new("bodies")
+
+p s.getPlanetNames()
+
 earth = s.getPlanetByName("earth")
 moon = earth.getMoonByName("moon")
+mars = s.getPlanetByName("mars");
+#p mars.getMoonNames
 
-p earth
+#p earth
 puts "\n\n\n"
-p moon
+#p moon
 
 
 puts "\n\n\n"
 
 sun = s.getSunByName("sun")
-p sun
+#p sun
