@@ -30,25 +30,14 @@ end
 parsed_data = JSON.parse(data)
 
 
-
-count = 0
-anomaly_count = 0
 for line_data in parsed_data["bodies"]
   #  p line_data["id"]
     if line_data["aroundPlanet"] != nil
-
         if  bodies.include? line_data["aroundPlanet"]["planet"]
-
-
             bodies_data[line_data["aroundPlanet"]["planet"]]["moons"].push(line_data)
         end 
     end
-    count += 1
 end
-p count
-p anomaly_count
-p count - anomaly_count
-
 
 for body in bodies
     File.open("bodies/" + body + "/" + body + ".json", "w") do |f|
