@@ -96,9 +96,19 @@ class SolarSystem
 
     def getSunNames()
         @planetList.inject([]) do | list , s| list.push(s.name) end
-
+    end
+    
     def getPlanetByName(name)
         planetList.detect do |p| p.name.upcase == name.upcase end
+    end
+
+    # return the diameter ratio between the two bodies
+    def getRatioBetween(b1 , b2)
+        b1.diameter / b2.diameter
+    end
+
+    def getAllRatios(planet)
+        @planetList.inject([]) do  |list , pl | list.push({pl.name => pl.diameter / planet.diameter}) end
     end
 
     def getSunByName(name)
@@ -123,16 +133,19 @@ s = SolarSystem.new("bodies")
 p s.getPlanetNames()
 
 earth = s.getPlanetByName("earth")
+
+
+
 moon = earth.getMoonByName("moon")
-mars = s.getPlanetByName("mars");
+mars = s.getPlanetByName("mars")
 #p mars.getMoonNames
 
 #p earth
-puts "\n\n\n"
+#puts "\n\n\n"
 #p moon
 
 
-puts "\n\n\n"
+#puts "\n\n\n"
 
 sun = s.getSunByName("sun")
-#p sun
+p s.getAllRatios(sun)
