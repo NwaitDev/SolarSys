@@ -1,0 +1,19 @@
+Anomalie moyenne : https://en.wikipedia.org/wiki/Mean_anomaly
+Definition d'une ellipse : https://astronomy.swin.edu.au/cosmos/E/Ellipse
+TOUS LES CALCULS LOL : http://stjarnhimlen.se/comp/ppcomp.html#7
+
+Ces gens là expliquent de s trucs qui sont plus faciles à comprendre qu'en faisant des recherches sur le net: 
+https://www.youtube.com/channel/UCAUBEmQw1JNo5rD0MbMXoLg
+
+Celle là c'est l'une des plus importantes j'ai l'impression :
+https://www.youtube.com/watch?v=A-wAiFFSY6o
+
+Ellipse :
+    semifociDist = moitié de la distance entre les foci de l'ellipse 
+    (On peut tracer une ellipse à l'aide de 3 données : la coord du point focus1,
+    celle du point focus2 et la somme des distances entre chacun des points de l'ellipse et les deux foci (c'est une constante))
+
+
+BON : Dans l'idée, il y a deux types de coordonnées que l'on peut utiliser, 
+les coordonées cartésiennes, qui nous sont désormais assez familières, c'est celles qu'on utilise en physique
+les coordonnées kepleriennes, qui servent à décrire les coniques. 
