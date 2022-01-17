@@ -149,3 +149,5 @@ mars = s.getPlanetByName("mars")
 
 sun = s.getSunByName("sun")
 p s.getAllRatios(sun)
+
+p sun.class
