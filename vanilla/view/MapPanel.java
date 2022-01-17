@@ -3,29 +3,39 @@ package vanilla.view;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import vanilla.model.CelestialBody;
+import vanilla.model.SolarSystem;
 
 public class MapPanel extends JPanel{
 
-    private ArrayList<CelestialBody> bodies;
+    private SolarSystem solarSystem;
 
-    MapPanel(){
+    MapPanel(SolarSystem solarSystem){
         super();
-        this.bodies = new ArrayList<>();
-        this.setBackground(Color.BLACK);
+        this.solarSystem = solarSystem ;
     }
 
     public void updateView(){
         this.removeAll();
-        for (CelestialBody body : bodies) {
-            System.out.println(body.getName());
+        for (CelestialBody body : solarSystem.getSunList()) {
+            this.add(new JLabel(body.getName()));
         }
+        for (CelestialBody body : solarSystem.getPlanetList()) {
+            this.add(new JLabel(body.getName()));   
+        }
+        System.out.println("update clicked");
+        this.repaint();
     }
 
-    public void addBody(String name){
-        this.bodies.add(new CelestialBody(name));
+    public void addSun(CelestialBody body){
+        this.solarSystem.addSun(body);
+    }
+
+    public void addPlanet(CelestialBody body){
+        this.solarSystem.addPlanet(body);
     }
 
 }

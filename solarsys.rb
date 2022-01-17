@@ -3,9 +3,25 @@
 include Java
 
 require "./cinnamon/ObjectData.rb"
+require "./cinnamon/Calculs.rb"
 
-$window = Java::vanilla.view.Window.new()
+#MEMO :
+# class CelestialBody
+# :name, :referenceFrame, :position, :diameter, :scale, :periodOfRotation, :periodOfRevolution, :distanceFromOrigin, :clockwise
 
-s = SolarSystem.new("bodies")
+# class SolarSystem 
+# :sunList, :planetList
 
-$window.getPanels.get(1).addBody("hello you !")
+
+
+solarSystem = SolarSystem.new("bodies")
+jSolarSystem = Java::vanilla.model.SolarSystem.new()
+
+solarSystem.sunList.each do |body|
+    jSolarSystem.addSun(body.java_Celestialbody)    
+end
+solarSystem.planetList.each do |body|
+    jSolarSystem.addPlanet(body.java_Celestialbody)  
+end
+
+$window = Java::vanilla.view.Window.new(jSolarSystem)

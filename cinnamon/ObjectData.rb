@@ -1,6 +1,10 @@
+$LOAD_PATH.append("..")
 require 'uri'
 require 'net/http'
 require 'json'
+require "Calculs.rb"
+
+include Java
 
 
 
@@ -21,11 +25,26 @@ class CelestialBody
         @distanceFromOrigin = distanceFromOrigin
         @clockwise = clockwise
     end
+
+    def java_Celestialbody()
+        x = @position[0]
+        y = @position[1]
+        Java::vanilla.model.CelestialBody.new(
+            @name.to_java(:String),
+            Java::java.awt.Point.new(x.to_java(:int),y.to_java(:int)),
+            @diameter.to_java(:float),
+            @scale.to_java(:float),
+            @periodOfRevolution.to_java(:float),
+            @periodOfRotation.to_java(:float),
+            @distanceFromOrigin.to_java(:float),
+            @clockwise.to_java
+        )
+    end
 end
 
 class Sun < CelestialBody
     def initialize
-        super("Sun",self, [0,0], 1392684, 1 , 220e6 , 27*24 ,0 ,true)
+        super("Sun",nil, [0,0], 1392684, 1 , 220e6 , 27*24 ,0 ,true)
     end
 end
 
@@ -127,27 +146,3 @@ class SolarSystem
         end
     end
 end
-
-s = SolarSystem.new("bodies")
-
-p s.getPlanetNames()
-
-earth = s.getPlanetByName("earth")
-
-
-
-moon = earth.getMoonByName("moon")
-mars = s.getPlanetByName("mars")
-#p mars.getMoonNames
-
-#p earth
-#puts "\n\n\n"
-#p moon
-
-
-#puts "\n\n\n"
-
-sun = s.getSunByName("sun")
-p s.getAllRatios(sun)
-
-p sun.class

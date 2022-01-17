@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import vanilla.controller.ButtonListener;
+import vanilla.model.SolarSystem;
 
 import javax.swing.JLabel;
 
@@ -31,10 +32,10 @@ public class Window extends JFrame{
         currentPanel = (currentPanel+1)%panels.size();
         content.add(panels.get(currentPanel),0);
         content.add(sideBar, BorderLayout.EAST);
-        content.validate();
+        content.repaint();
     }
 
-    public Window(){
+    public Window(SolarSystem s){
         super("SolarSys");
         this.setSize(dim);
         content = this.getContentPane();
@@ -44,10 +45,12 @@ public class Window extends JFrame{
         JPanel menu = new JPanel();
         menu.setLayout(new BorderLayout());
         menu.setBackground(Color.BLUE);
+        menu.add(new JLabel("MENU"));
         panels.add(menu);
 
-        JPanel map = new MapPanel();
+        JPanel map = new MapPanel(s);
         map.setLayout(new BorderLayout());
+        map.add(new JLabel("MAP"));
         map.setBackground(Color.BLACK);
         panels.add(map);
 

@@ -23,6 +23,8 @@ def mu(referentialBody)
         5.793939 * (10**15)
     when "Neptune"
         6.836529 * (10**15)
+    when "Pluto"
+        8.71 * (10**11)
     else
         throw :NoCorrespondingCelestialBody
     end
