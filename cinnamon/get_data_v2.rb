@@ -23,7 +23,7 @@ end
 
 
 for body in bodies
-    FileUtils.mkdir_p "bodies/" + body + "/moon"
+    FileUtils.mkdir_p "../bodies/" + body + "/moon"
 end
 
 
@@ -40,11 +40,11 @@ for line_data in parsed_data["bodies"]
 end
 
 for body in bodies
-    File.open("bodies/" + body + "/" + body + ".json", "w") do |f|
+    File.open("../bodies/" + body + "/" + body + ".json", "w") do |f|
         f.write(JSON.pretty_generate(bodies_data[body]["data"]))
     end
     for moon in bodies_data[body]["moons"]
-        File.open("bodies/" + body + "/moon/" + moon["name"].gsub(" ", "_").gsub("/", "_BS_")   + ".json", "w") do |f|
+        File.open("../bodies/" + body + "/moon/" + moon["name"].gsub(" ", "_").gsub("/", "_BS_")   + ".json", "w") do |f|
             f.write(JSON.pretty_generate(moon))
         end
     end 
