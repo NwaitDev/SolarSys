@@ -4,7 +4,7 @@ import java.awt.Point;
 
 public class CelestialBody {
     private String name;
-    private CelestialBody referenceFrame;
+    private CelestialBody referenceFrame = null;
     private Point position;
     private float diameter;
     private float scale;

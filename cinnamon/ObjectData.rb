@@ -2,8 +2,7 @@ $LOAD_PATH.append("..")
 require 'uri'
 require 'net/http'
 require 'json'
-require "Calculs.rb"
-
+#require "cinnamon/Calculs"
 include Java
 
 
@@ -13,11 +12,10 @@ include Java
 
 class CelestialBody
     attr_reader :name, :referenceFrame, :position, :diameter, :scale, :periodOfRotation, :periodOfRevolution, :distanceFromOrigin, :clockwise
-
-    def initialize(name, referenceFrame, position, diameter, scale, distanceFromOrigin,periodOfRevolution, periodOfRotation, clockwise=false)  
+    def initialize(name, referenceFrame, diameter, scale, distanceFromOrigin,periodOfRevolution, periodOfRotation, clockwise=false)  
         @name = name
         @referenceFrame = referenceFrame
-        @position = position
+        @position = Coords.new()
         @diameter = diameter
         @scale = scale
         @periodOfRevolution = periodOfRevolution
@@ -26,12 +24,31 @@ class CelestialBody
         @clockwise = clockwise
     end
 
+    def setCartesianCoordinates(x,y,z,xSpeed,ySpeed,zSpeed)
+        @position = CartesianCoord.new(x,y,z,xSpeed,ySpeed,zSpeed)
+    end
+
+    def setKeplerianCoordinates(semiMajorAxis, eccentricity, inclination, ascendingNodeAngle, periapsisArg, mainAnom)
+        @position = KeplerCoord.new(semiMajorAxis, eccentricity, inclination, ascendingNodeAngle, periapsisArg, mainAnom)
+    end
+
     def java_Celestialbody()
-        x = @position[0]
-        y = @position[1]
+        if @position.type == :cartesian
+            x = @position.x.floor
+            y = @position.y.floor
+            jpoint = Java::java.awt.Point.new(x.to_java(:int),y.to_java(:int))
+        elsif @position.type = :keplerian
+            currentPos = @position.toCartesian(@referenceFrame)
+            x = currentPos.x.floor
+            y = currentPos.y.floor
+            jpoint = Java::java.awt.Point.new(x.to_java(:int),y.to_java(:int))
+        else
+            jpoint = nil.to_java
+        end
+
         Java::vanilla.model.CelestialBody.new(
             @name.to_java(:String),
-            Java::java.awt.Point.new(x.to_java(:int),y.to_java(:int)),
+            jpoint,
             @diameter.to_java(:float),
             @scale.to_java(:float),
             @periodOfRevolution.to_java(:float),
@@ -44,7 +61,7 @@ end
 
 class Sun < CelestialBody
     def initialize
-        super("Sun",nil, [0,0], 1392684, 1 , 220e6 , 27*24 ,0 ,true)
+        super("Sun",nil, CartesianCoord.new(0,0,0,0,0,0), 1392684, 1 , 220e6 , 27*24 ,0 ,true)
     end
 end
 
@@ -94,7 +111,17 @@ class Planet < CelestialBody
         @periodOfRotation = struct_data["sideralRotation"]
         @moonList = []
         entries = Dir.entries(dirName + "/" + planetName + "/moon/" )
-        @distanceFromOrigin =  (struct_data["perihelion"] +  struct_data["aphelion"])/2  
+        @distanceFromOrigin =  (struct_data["perihelion"] +  struct_data["aphelion"])/2  ###Not the real current distance from the sun yet
+
+        setKeplerianCoordinates(
+            struct_data["semimajorAxis"],
+            struct_data["eccentricity"],
+            struct_data["inclination"],
+            struct_data["longAscNode"],
+            struct_data["argPeriapsis"],
+            struct_data["mainAnomaly"]
+        )
+
         for entry in entries
             if entry != "." && entry != ".."
                 m_curr = Moon.new(dirName , planetName, entry, self)

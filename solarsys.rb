@@ -15,6 +15,14 @@ require "./cinnamon/Calculs.rb"
 
 
 solarSystem = SolarSystem.new("bodies")
+solarSystem.sunList.each do |elem|
+    p elem.name 
+end
+
+solarSystem.planetList.each do |elem|
+    p elem.name 
+end
+
 jSolarSystem = Java::vanilla.model.SolarSystem.new()
 
 solarSystem.sunList.each do |body|

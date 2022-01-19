@@ -4,7 +4,7 @@ def absoluteDayFromEpoch(y,m,d, ut=0)
 end
 
 def mu(referentialBody)
-    case referentialBody
+    case referentialBody.name
     when "Sun"
         1.32712440018 * (10**20)
     when "Mercury"
@@ -102,9 +102,17 @@ def bodyCentricFrameCartesianCoord(orbCoords,inclination,periapsisArg,ascendingN
     CartesianCoord.new(x,y,z,xSpeed,ySpeed,zSpeed)
 end
 
-class CartesianCoord
+class Coords
+    attr_reader :type
+    def initialize()
+        @type = :undefined
+    end
+end
+
+class CartesianCoord < Coords
     attr_reader :x, :y, :z, :xSpeed, :ySpeed, :zSpeed
     def initialize(x,y,z,xSpeed, ySpeed, zSpeed)
+        @type = :cartesian
         @x=x
         @y=y
         @z=z
@@ -113,13 +121,13 @@ class CartesianCoord
         @zSpeed=zSpeed
     end
 
-
 end
 
-class KeplerCoord
+class KeplerCoord < Coords
     attr_reader :semiMajorAxis, :eccentricity, :inclination, :ascendingNodeAngle, :periapsisArg, :mainAnom
     
     def initialize(semiMajorAxis, eccentricity, inclination, ascendingNodeAngle, periapsisArg, mainAnom)
+        @type = :keplerian
         @semiMajorAxis = semiMajorAxis
         @eccentricity = eccentricity, 
         @inclination = inclination
