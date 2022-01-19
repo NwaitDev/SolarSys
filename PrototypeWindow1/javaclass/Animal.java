@@ -1,4 +1,4 @@
-package javaclass ;
+package PrototypeWindow1.javaclass ;
 
 public class Animal {
     //
