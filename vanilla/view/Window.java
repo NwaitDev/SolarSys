@@ -50,8 +50,8 @@ public class Window extends JFrame{
 
         JPanel map = new MapPanel(s);
         map.setLayout(new BorderLayout());
-        map.add(new JLabel("MAP"));
         map.setBackground(Color.BLACK);
+        map.add(new JLabel("MAP"));
         panels.add(map);
 
         sideBar = new JPanel();

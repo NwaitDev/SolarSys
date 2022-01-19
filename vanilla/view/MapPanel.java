@@ -19,15 +19,7 @@ public class MapPanel extends JPanel{
     }
 
     public void updateView(){
-        this.removeAll();
-        for (CelestialBody body : solarSystem.getSunList()) {
-            this.add(new JLabel(body.getName()));
-        }
-        for (CelestialBody body : solarSystem.getPlanetList()) {
-            this.add(new JLabel(body.getName()));   
-        }
-        System.out.println("update clicked");
-        this.repaint();
+        solarSystem.print();
     }
 
     public void addSun(CelestialBody body){

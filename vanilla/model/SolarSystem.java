@@ -20,4 +20,14 @@ public class SolarSystem {
     public void addPlanet(CelestialBody planet){
         this.planetList.add(planet);
     }
+
+    public void print(){
+        for (CelestialBody celestialBody : planetList) {
+            System.out.println(celestialBody.getName());
+            System.out.println("Diameter :"+celestialBody.getDiameter());
+            System.out.println("Position :"+celestialBody.getPosition());
+            System.out.println("Scale :"+celestialBody.getScale());
+            System.out.println("Period of revolution :"+celestialBody.getPeriodOfRevolution());
+        }
+    }
 }

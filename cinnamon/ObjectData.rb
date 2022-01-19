@@ -2,7 +2,7 @@ $LOAD_PATH.append("..")
 require 'uri'
 require 'net/http'
 require 'json'
-#require "cinnamon/Calculs"
+require "./cinnamon/Calculs.rb"
 include Java
 
 
@@ -11,7 +11,7 @@ include Java
 ################################################
 
 class CelestialBody
-    attr_reader :name, :referenceFrame, :position, :diameter, :scale, :periodOfRotation, :periodOfRevolution, :distanceFromOrigin, :clockwise
+    attr_reader :name, :referenceFrame, :diameter, :scale, :periodOfRotation, :periodOfRevolution, :distanceFromOrigin, :clockwise, :position
     def initialize(name, referenceFrame, diameter, scale, distanceFromOrigin,periodOfRevolution, periodOfRotation, clockwise=false)  
         @name = name
         @referenceFrame = referenceFrame
@@ -33,14 +33,14 @@ class CelestialBody
     end
 
     def java_Celestialbody()
-        if @position.type == :cartesian
-            x = @position.x.floor
-            y = @position.y.floor
+        if :cartesian == @position.type
+            x = @position.x
+            y = @position.y
             jpoint = Java::java.awt.Point.new(x.to_java(:int),y.to_java(:int))
-        elsif @position.type = :keplerian
+        elsif :keplerian == @position.type
             currentPos = @position.toCartesian(@referenceFrame)
-            x = currentPos.x.floor
-            y = currentPos.y.floor
+            x = currentPos.x
+            y = currentPos.y
             jpoint = Java::java.awt.Point.new(x.to_java(:int),y.to_java(:int))
         else
             jpoint = nil.to_java
@@ -61,7 +61,7 @@ end
 
 class Sun < CelestialBody
     def initialize
-        super("Sun",nil, CartesianCoord.new(0,0,0,0,0,0), 1392684, 1 , 220e6 , 27*24 ,0 ,true)
+        super("Sun",nil, 1392684, 1 , 220e6 , 27*24 ,0 ,true)
     end
 end
 
@@ -122,6 +122,7 @@ class Planet < CelestialBody
             struct_data["mainAnomaly"]
         )
 
+        p @position
         for entry in entries
             if entry != "." && entry != ".."
                 m_curr = Moon.new(dirName , planetName, entry, self)
