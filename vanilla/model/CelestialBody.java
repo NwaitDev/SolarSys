@@ -11,10 +11,12 @@ public class CelestialBody {
     private float periodOfRevolution;
     private float periodOfRotation;
     private float distanceFromOrigin;
-    private boolean clockwise;
+    private ArrayList<CelestialBody> satelliteList = new ArrayList<CelestialBody>();
+    private float farthest;
+    private float biggest;
 
     public CelestialBody(String name, /*CelestialBody referenceFrame,*/ Point position, float diameter, float scale,
-            float periodOfRevolution, float periodOfRotation, float distanceFromOrigin, boolean clockwise) {
+            float periodOfRevolution, float periodOfRotation, float distanceFromOrigin) {
         this.name = name;
         //this.referenceFrame = referenceFrame;
         this.position = position;
@@ -23,7 +25,6 @@ public class CelestialBody {
         this.periodOfRevolution = periodOfRevolution;
         this.periodOfRotation = periodOfRotation;
         this.distanceFromOrigin = distanceFromOrigin;
-        this.clockwise = clockwise;
     }
 
     public String getName() {
@@ -58,8 +59,34 @@ public class CelestialBody {
         return distanceFromOrigin;
     }
 
-    public boolean isClockwise() {
-        return clockwise;
+    public CelestialBody getSatelliteList(){
+        return this.satelliteList;
     }
+
+
+    public boolean isSameAs( CelestialBody other){
+        return this.name== other.name;
+    }
+
+    public void addSatellite(CelestialBody planet){
+        this.SatellitetList.add(planet);
+    }
+
+    //get distance of the farthest planet arount the reference in parameter to find the appropriate scale
+    public float getFarthest(CelestialBody ref){
+        Iterator<CelestialBody> satelliteIter = this.satelliteList.iterator();
+        float max=0;
+        while (satelliteIter.hasNext()){
+            CelestialBody curr = satelliteIter.next();
+            //if (curr.getReferenceFrame().isSameAs(ref)){
+                if (curr.getDistanceFromOrigin()>max){
+                    max = curr.getDistanceFromOrigin();
+                }
+            //}
+        }
+        return max;
+    }//A MODIFIER (Damya)
+
+    //getBigest
 
 }

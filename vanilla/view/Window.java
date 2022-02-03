@@ -17,7 +17,8 @@ import javax.swing.JLabel;
 
 
 public class Window extends JFrame{
-    private Dimension dim = new Dimension(500,500);
+    public static final int sizeMap = 1000;
+    private Dimension dim = new Dimension(sizeMap, sizeMap);
     private Container content;
     private ArrayList<JPanel> panels;
     private int currentPanel;
@@ -35,9 +36,10 @@ public class Window extends JFrame{
         content.repaint();
     }
 
-    public Window(SolarSystem s){
+    public Window(CelestialBody s){
         super("SolarSys");
         this.setSize(dim);
+        this.setLocationRelativeTo(null);
         content = this.getContentPane();
         content.setLayout(new BorderLayout());
         panels = new ArrayList<JPanel>();
@@ -48,7 +50,7 @@ public class Window extends JFrame{
         menu.add(new JLabel("MENU"));
         panels.add(menu);
 
-        JPanel map = new MapPanel(s);
+        JPanel map = new MapPanel(s, sizeMap);
         map.setLayout(new BorderLayout());
         map.setBackground(Color.BLACK);
         map.add(new JLabel("MAP"));
@@ -64,9 +66,10 @@ public class Window extends JFrame{
         sideBar.add(updateMapButton);
 
         //ajout des jpanel au content
-        currentPanel = 0;
-        content.add(panels.get(currentPanel),0);
-        content.add(sideBar, BorderLayout.EAST);
+        // currentPanel = 0;
+        // content.add(panels.get(currentPanel),0);
+        // content.add(sideBar, BorderLayout.EAST);
+        content.add(map);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
