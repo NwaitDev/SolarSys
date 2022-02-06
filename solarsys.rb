@@ -2,7 +2,7 @@
 
 include Java
 
-require "./cinnamon/ObjectData.rb"
+require "./cinnamon/CelestialBody.rb"
 require "./cinnamon/Calculs.rb"
 
 #MEMO :

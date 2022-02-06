@@ -1,9 +1,4 @@
-
-
-#EPOCH = 1 jan 2000
-def absoluteDayFromEpoch(y,m,d, ut=0)
-    367*y - 7 * ( y + (m+9)/12 ) / 4 - 3 * ( ( y + (m-9)/7 ) / 100 + 1 ) / 4 + 275*m/9 + d - 730515 + ut/24
-end
+# Calculations of the coordinates for each body of the solar system
 
 def mu(referentialBody)
     case referentialBody.name
@@ -150,4 +145,3 @@ class KeplerCoord < Coords
         bodyCentricFrameCartesianCoord(orbitalCoords,@inclination,@periapsisArg,@ascendingNodeAngle)
     end
 end
-

@@ -5,9 +5,11 @@ require 'json'
 require "./cinnamon/Calculs.rb"
 include Java
 
+class InvalidData < Exception
+end
 
 class CelestialBody
-    attr_reader :name, :referenceFrame, :diameter, :periodOfRotation, :periodOfRevolution, :distanceFromOrigin, :position, :satelliteList
+    attr_reader :name, :referenceFrame, :diameter, :periodOfRotation, :periodOfRevolution, :distanceFromOrigin, :position, :satelliteList, :semiMajorAxis, :eccentricity, :inclination, :ascendingNodeAngle, :periapsisArg, :mainAnom
     def initialize(name, referenceFrame, diameter, distanceFromOrigin,periodOfRevolution, periodOfRotation,position=Coords.new())  
         @name = name
         @referenceFrame = referenceFrame
@@ -17,14 +19,30 @@ class CelestialBody
         @distanceFromOrigin = distanceFromOrigin
         @position = position 
         @satelliteList = []
+        @semiMajorAxis = nil
+        @eccentricity = nil
+        @inclination = nil
+        @ascendingNodeAngle = nil
+        @periapsisArg = nil
+        @mainAnom = nil
     end
 
-    def setCartesianCoordinates(x,y,z,xSpeed,ySpeed,zSpeed)
-        @position = CartesianCoord.new(x,y,z,xSpeed,ySpeed,zSpeed)
-    end
+    #def setCartesianCoordinates(x,y,z,xSpeed,ySpeed,zSpeed)
+    #    @position = CartesianCoord.new(x,y,z,xSpeed,ySpeed,zSpeed)
+    #end
 
     def setKeplerianCoordinates(semiMajorAxis, eccentricity, inclination, ascendingNodeAngle, periapsisArg, mainAnom)
         @position = KeplerCoord.new(semiMajorAxis, eccentricity, inclination, ascendingNodeAngle, periapsisArg, mainAnom)
+        @semiMajorAxis = semiMajorAxis
+        @eccentricity = eccentricity
+        @inclination = inclination
+        @ascendingNodeAngle = ascendingNodeAngle
+        @periapsisArg = periapsisArg
+        @mainAnom = mainAnom
+    end
+
+    def getCoordAfter(dayShift)
+        KeplerCoord.new(@semiMajorAxis, @eccentricity, @inclination, @ascendingNodeAngle, @periapsisArg, (@mainAnom+dayShift/@periodOfRevolution)%360).toCartesian(@referenceFrame)
     end
 
     def addSatellite(celestialBody)
@@ -47,7 +65,6 @@ class CelestialBody
 
         Java::vanilla.model.CelestialBody.new(
             @name.to_java(:String),
-            @referenceFrame.to_java,
             jpoint,
             @diameter.to_java(:float),
             @periodOfRevolution.to_java(:float),
