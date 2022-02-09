@@ -1,0 +1,14 @@
+Nathan :
+mettre à jour la methode qui crée les objets java dont Dam a besoin
+calculer les positions des planetes au cours du temps 
+(animation zoom)
+
+
+Alexandre :
+mettre à jour la classe de celestialBody Ruby
+methodes biggest et farthest en ruby
+
+
+Damya :
+modifier solarsy.rb pour plus utiliser de solarsystem
+prendre en comtpe la taille des planetes pour l'affichage

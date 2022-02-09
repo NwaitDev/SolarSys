@@ -1,0 +1,92 @@
+package vanilla.model;
+
+import java.awt.Point;
+
+public class CelestialBody {
+    private String name;
+    private CelestialBody referenceFrame;
+    private Point position;
+    private float diameter;
+    private float scale;
+    private float periodOfRevolution;
+    private float periodOfRotation;
+    private float distanceFromOrigin;
+    private ArrayList<CelestialBody> satelliteList = new ArrayList<CelestialBody>();
+    private float farthest;
+    private float biggest;
+
+    public CelestialBody(String name, /*CelestialBody referenceFrame,*/ Point position, float diameter, float scale,
+            float periodOfRevolution, float periodOfRotation, float distanceFromOrigin) {
+        this.name = name;
+        //this.referenceFrame = referenceFrame;
+        this.position = position;
+        this.diameter = diameter;
+        this.scale = scale;
+        this.periodOfRevolution = periodOfRevolution;
+        this.periodOfRotation = periodOfRotation;
+        this.distanceFromOrigin = distanceFromOrigin;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public Point getPosition() {
+        return this.position;
+    }
+
+    public CelestialBody getReferenceFrame() {
+        return referenceFrame;
+    }
+
+    public float getDiameter() {
+        return diameter;
+    }
+
+    public float getScale() {
+        return scale;
+    }
+
+    public float getPeriodOfRevolution() {
+        return periodOfRevolution;
+    }
+
+    public float getPeriodOfRotation() {
+        return periodOfRotation;
+    }
+
+    public float getDistanceFromOrigin() {
+        return distanceFromOrigin;
+    }
+
+    public CelestialBody getSatelliteList(){
+        return this.satelliteList;
+    }
+
+
+    public boolean isSameAs( CelestialBody other){
+        return this.name== other.name;
+    }
+
+    public void addSatellite(CelestialBody planet){
+        this.SatellitetList.add(planet);
+    }
+
+    //get distance of the farthest planet arount the reference in parameter to find the appropriate scale
+    public float getFarthest(CelestialBody ref){
+        Iterator<CelestialBody> satelliteIter = this.satelliteList.iterator();
+        float max=0;
+        while (satelliteIter.hasNext()){
+            CelestialBody curr = satelliteIter.next();
+            //if (curr.getReferenceFrame().isSameAs(ref)){
+                if (curr.getDistanceFromOrigin()>max){
+                    max = curr.getDistanceFromOrigin();
+                }
+            //}
+        }
+        return max;
+    }//A MODIFIER (Damya)
+
+    //getBigest
+
+}

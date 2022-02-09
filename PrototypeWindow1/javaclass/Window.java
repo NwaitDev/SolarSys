@@ -1,4 +1,4 @@
-package javaclass;
+package PrototypeWindow1.javaclass;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

@@ -1,7 +1,5 @@
 # interface graphique en Jruby
 
-# DAMYA
-
 include Java
 
 

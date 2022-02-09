@@ -1,3 +1,0 @@
-export JRUBY_HOME=/usr/local/jruby-1.7.27
-export CLASSPATH=:${JRUBY_HOME}/lib/jruby.jar:$HOME/programs/Ruby/JRuby/jrubytrying
-export PATH=${PATH}:${JRUBY_HOME}/bin
