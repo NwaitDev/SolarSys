@@ -6,7 +6,7 @@ import java.util.*;
 public class SolarSystem {
     private ArrayList<CelestialBody> sunList = new ArrayList<CelestialBody>();
 
-    //private ArrayList<CelestialBody> planetList = new ArrayList<CelestialBody>();
+    private ArrayList<CelestialBody> planetList = new ArrayList<CelestialBody>();
 
     public ArrayList<CelestialBody> getSunList(){
         return sunList;

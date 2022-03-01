@@ -11,7 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import vanilla.controller.ButtonListener;
-import vanilla.model.SolarSystem;
+import vanilla.model.CelestialBody;
 
 import javax.swing.JLabel;
 

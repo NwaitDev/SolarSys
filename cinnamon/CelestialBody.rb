@@ -10,7 +10,7 @@ end
 
 class CelestialBody
     attr_reader :name, :referenceFrame, :diameter, :periodOfRotation, :periodOfRevolution, :distanceFromOrigin, :position, :satelliteList, :semiMajorAxis, :eccentricity, :inclination, :ascendingNodeAngle, :periapsisArg, :mainAnom
-    def initialize(name, referenceFrame, diameter, distanceFromOrigin,periodOfRevolution, periodOfRotation,position=Coords.new())  
+    def initialize(name, referenceFrame, diameter, distanceFromOrigin,periodOfRevolution, periodOfRotation,position)  
         @name = name
         @referenceFrame = referenceFrame
         @diameter = diameter
@@ -50,11 +50,11 @@ class CelestialBody
     end
 
     def to_java()
-        if :cartesian == @position.type
+        if (@position.type == :cartesian)
             x = @position.x
             y = @position.y
             jpoint = Java::java.awt.Point.new(x.to_java(:int),y.to_java(:int))
-        elsif :keplerian == @position.type
+        elsif (@position.type == :keplerian)
             currentPos = @position.toCartesian(@referenceFrame)
             x = currentPos.x
             y = currentPos.y
@@ -63,10 +63,13 @@ class CelestialBody
             jpoint = nil.to_java
         end
 
+        scale = 1;
+
         Java::vanilla.model.CelestialBody.new(
             @name.to_java(:String),
             jpoint,
             @diameter.to_java(:float),
+            scale,
             @periodOfRevolution.to_java(:float),
             @periodOfRotation.to_java(:float),
             @distanceFromOrigin.to_java(:float)
