@@ -1,6 +1,8 @@
 package vanilla.model;
 
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.*;
 
 public class CelestialBody {
     private String name;
@@ -59,7 +61,7 @@ public class CelestialBody {
         return distanceFromOrigin;
     }
 
-    public CelestialBody getSatelliteList(){
+    public ArrayList<CelestialBody> getSatelliteList(){
         return this.satelliteList;
     }
 
@@ -69,24 +71,44 @@ public class CelestialBody {
     }
 
     public void addSatellite(CelestialBody planet){
-        this.SatellitetList.add(planet);
+        this.satelliteList.add(planet);
+        this.updateFarthest();
+        this.updateBiggest();
     }
 
-    //get distance of the farthest planet arount the reference in parameter to find the appropriate scale
-    public float getFarthest(CelestialBody ref){
+
+    public void updateBiggest(){
         Iterator<CelestialBody> satelliteIter = this.satelliteList.iterator();
         float max=0;
         while (satelliteIter.hasNext()){
             CelestialBody curr = satelliteIter.next();
-            //if (curr.getReferenceFrame().isSameAs(ref)){
-                if (curr.getDistanceFromOrigin()>max){
-                    max = curr.getDistanceFromOrigin();
+                if (curr.getDiameter()>max){
+                    max = curr.getDiameter();
                 }
-            //}
         }
-        return max;
-    }//A MODIFIER (Damya)
+        this.biggest=max;
+    }
 
-    //getBigest
+    public void updateFarthest(){
+        Iterator<CelestialBody> satelliteIter = this.satelliteList.iterator();
+        double max=0;
+        while (satelliteIter.hasNext()){
+            
+            CelestialBody curr = satelliteIter.next();
+            double distcurr = Math.sqrt(Math.pow(curr.getPosition().x, 2) + Math.pow(curr.getPosition().y, 2));
+                if (distcurr>max){
+                    max = distcurr;
+                }
+        }
+        this.farthest= (float) max;
+    }
+
+    public float getFarthest(){
+       return this.farthest;
+    }
+
+    public float getBiggest(){
+       return this.biggest;
+    }
 
 }

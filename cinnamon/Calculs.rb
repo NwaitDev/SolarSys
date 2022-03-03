@@ -105,9 +105,9 @@ class Coords
         @type = :undefined
     end
 
-    def type
-        @type
-    end
+    # def type
+    #     @type
+    # end
 end
 
 class CartesianCoord < Coords

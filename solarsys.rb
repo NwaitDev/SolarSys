@@ -36,7 +36,7 @@ end
 #######################################################################################################################
 ########################################GENERATING THE DATA FOR JAVA###################################################
 
-sourceBody = CelestialBody.new("Sun",nil, 1392684, 0 , 220e6 , 27*24 ,0)
+sourceBody = CelestialBody.new("Sun",nil, 1392684, 0 , 220e6 , 27*24 , Coords.new())
 
 entries = Dir.entries(bodyDir)
 for entry in entries
@@ -61,6 +61,30 @@ for entry in entries
     end
 end
 
-p sourceBody
+#p sourceBody
 
-# $window = Java::vanilla.view.Window.new(sourceBody)
+JsourceBody = Java::vanilla.model.CelestialBody.new(sourceBody.name, java.awt.Point.new(0,0), sourceBody.diameter, 1, sourceBody.periodOfRevolution, sourceBody.periodOfRotation, sourceBody.distanceFromOrigin)
+#JsourceBody = sourceBody.to_java()
+
+
+    sourceBody.satelliteList.each do |body|
+        if body.name != "Pluto"
+            JsourceBody.addSatellite(body.to_java())  
+        end  
+    end
+
+  #ce qu'on avait avant :
+            # solarSystem.sunList.each do |body|
+            #     jSolarSystem.addSun(body.java_Celestialbody)    
+            # end
+            # solarSystem.planetList.each do |body|
+            #     jSolarSystem.addPlanet(body.java_Celestialbody)  
+#             # end
+# attr_reader :name, :referenceFrame, :diameter, :periodOfRotation, :periodOfRevolution,
+#  :distanceFromOrigin, :position, :satelliteList, :semiMajorAxis, :eccentricity, :inclination, :ascendingNodeAngle, :periapsisArg, :mainAnom
+#  public CelestialBody(String name, /*CelestialBody referenceFrame,*/ Point position, float diameter, float scale,
+#     float periodOfRevolution, float periodOfRotation, float distanceFromOrigin) {
+
+#TODO : avoir les infos de sourceBody dans JsourceBody
+
+$window = Java::vanilla.view.Window.new(JsourceBody)
