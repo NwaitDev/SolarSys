@@ -1,15 +1,11 @@
 package vanilla.view;
 
-import java.util.ArrayList;
 import java.util.*;
 
 import java.awt.*;
 import javax.swing.*;
 
 import vanilla.model.CelestialBody;
-import vanilla.model.SolarSystem;
-
-
 
 public class MapPanel extends JPanel{
 
@@ -50,7 +46,6 @@ public class MapPanel extends JPanel{
        
     }
 
-   
 
     private void drawOval(Graphics2D g2d, int x, int y, int w, int h){
         g2d.fillOval(getCoord(x) - w/2,getCoord(y) - h/2, w,h);

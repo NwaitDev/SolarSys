@@ -18,7 +18,6 @@ def jsonToCelestialBody(json, aroundWhat)
     name = json["englishName"]
     referenceFrame = aroundWhat
     diameter = 2*json["meanRadius"]
-    avgDistFromOrigin =  (json["perihelion"] + json["aphelion"])/2
     revolutionPeriod = json["sideralOrbit"]
     periodOfRotation = json["sideralRotation"]
     position = KeplerCoord.new(
@@ -29,6 +28,8 @@ def jsonToCelestialBody(json, aroundWhat)
         json["argPeriapsis"],
         json["mainAnomaly"]
     )
+    position = position.toCartesian aroundWhat
+    avgDistFromOrigin =  Math.sqrt(position.x*position.x+position.y*position.y)
     CelestialBody.new(name,referenceFrame,diameter,avgDistFromOrigin,revolutionPeriod,periodOfRotation,position)
 end
 
