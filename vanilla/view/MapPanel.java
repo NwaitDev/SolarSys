@@ -13,6 +13,9 @@ public class MapPanel extends JPanel{
     private CelestialBody referenceFrame;
     private int sizePanel;
 
+    public CelestialBody getReferenceFrame() {
+        return referenceFrame;
+    }
 
     MapPanel(CelestialBody referenceFrame , int sizePanel){
         super();
@@ -41,9 +44,8 @@ public class MapPanel extends JPanel{
         return x + sizePanel/2;
     }
 
-    private int getPosRelative(int curr, int ref, float farthest, int sizePanel){
+    protected int getPosRelative(double curr, float farthest, int sizePanel){
         return (int) ((curr*(0.9*(sizePanel/2)))/farthest);
-       
     }
 
 
@@ -87,11 +89,11 @@ public class MapPanel extends JPanel{
             CelestialBody curr = IterSatelliteList.next();
 
 
-            String xS = Integer.toString(getPosRelative(curr.getPosition().x, this.referenceFrame.getPosition().x, farthest, sizePanel));
-            String yS = Integer.toString(getPosRelative(curr.getPosition().y, this.referenceFrame.getPosition().y, farthest, sizePanel));
+            String xS = Integer.toString(getPosRelative(curr.getPosition().x, farthest, sizePanel));
+            String yS = Integer.toString(getPosRelative(curr.getPosition().y, farthest, sizePanel));
 
-            int x = getPosRelative(curr.getPosition().x, this.referenceFrame.getPosition().x, farthest, sizePanel);
-            int y = getPosRelative(curr.getPosition().y, this.referenceFrame.getPosition().y, farthest, sizePanel);
+            int x = getPosRelative(curr.getPosition().x, farthest, sizePanel);
+            int y = getPosRelative(curr.getPosition().y, farthest, sizePanel);
 
             //float w = curr.getDiameter() * scaleWidth;
             int w =15;

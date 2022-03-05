@@ -15,8 +15,6 @@ import javax.swing.event.MouseInputListener;
 import vanilla.controller.MapListener;
 import vanilla.model.CelestialBody;
 
-import javax.swing.JLabel;
-
 
 public class Window extends JFrame{
     public static final int sizeMap = 1000;
@@ -33,15 +31,17 @@ public class Window extends JFrame{
         content.setLayout(new BorderLayout());
         panels = new ArrayList<JPanel>();
 
-        JPanel map = new MapPanel(s, sizeMap);
+        MapPanel map = new MapPanel(s, sizeMap);
         map.setBackground(Color.BLACK);
 
-        MouseInputListener listener = new MapListener(s);
-        map.addMouseListener(listener);
 
         panels.add(map);
 
         content.add(map);
+
+        MouseInputListener listener = new MapListener(map);
+        map.addMouseListener(listener);
+
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
     }

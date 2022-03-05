@@ -29,12 +29,6 @@ public class CelestialBody {
         this.distanceFromOrigin = distanceFromOrigin;
     }
 
-    public String usefullDataToString(){
-        return "Nom : "+ this.name + "\nType : A PRECISER DANS LE JSON (planète rocheuse par exemple)\n" +
-                "Diamètre : "+ this.diameter+"\nPériode de révolution : "+this.periodOfRevolution+
-                "\nPériode de Rotation : "+this.periodOfRotation+"\nNombre de satellites : "+this.satelliteList.size();
-    }
-
     public String getName() {
         return this.name;
     }
