@@ -67,6 +67,7 @@ class CelestialBody
 
         Java::vanilla.model.CelestialBody.new(
             @name.to_java(:String),
+            @referenceFrame.to_java,
             jpoint,
             @diameter.to_java(:float),
             scale,

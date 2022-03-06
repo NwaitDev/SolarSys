@@ -41,11 +41,21 @@ public class MapPanel extends JPanel{
     /*********************** REPERE *********************/
 
     private int getCoord(int x){
+        /*
+        prend une distance et lui ajoute la moitié de la taille de l'écran
+        */
         return x + sizePanel/2;
     }
 
     protected int getPosRelative(double curr, float farthest, int sizePanel){
-        return (int) ((curr*(0.9*(sizePanel/2)))/farthest);
+        /*
+        prend une DISTANCE (curr) 
+        (et pas une position comme son nom semble l'indiquer)
+        et retourne la distance à laquelle elle correspond à l'écran
+        (la planète la plus éloignée est à 90% 
+        de la moitié de la taille de la fenêtre)
+        */
+        return (int) ((curr*(0.9*(sizePanel/2)))/farthest); 
     }
 
 

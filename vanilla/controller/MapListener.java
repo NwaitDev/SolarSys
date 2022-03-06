@@ -1,5 +1,6 @@
 package vanilla.controller;
 
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
@@ -26,9 +27,10 @@ public class MapListener implements MouseInputListener {
     }
 
     public void mouseClicked(MouseEvent e) {
-        System.out.println("click at :" + e.getPoint());
         for (VisibleBody body : satList) {
-            if(e.getLocationOnScreen().distance(body.getPos().getX(), body.getPos().getX())<CLICK_DIST){ 
+            Point pos = e.getPoint();
+            double distance = Math.sqrt((pos.x - body.getxPos())*(pos.x - body.getxPos())+(pos.y - body.getyPos())*(pos.y - body.getyPos()));
+            if(distance<CLICK_DIST){ 
                 System.out.println(body.usefullDataToString());
             }
         }

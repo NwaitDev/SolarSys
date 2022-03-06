@@ -1,33 +1,54 @@
 package vanilla.view;
 
 import vanilla.model.CelestialBody;
-import java.awt.Point;
 
 
 public class VisibleBody {
     
+    private static final double RATIO_FARTHEST = 0.9;
     private CelestialBody actualCelestialBody;
-    private Point screenPos = new Point();
+    private int xPos;
+    private int yPos;
+    private int diameter;
 
 
     public VisibleBody(MapPanel mp, CelestialBody body){
 
-        //TODO : Recoder ça, parce que mdr, ça va tout casser si on refactorise mapPanel, c'est pas foufou
-        // Et puis de toute façon, ce serait plus propre que le code relatif à la position d'un objet à l'écran
-        // soit écrit ici -> cette solution doit rester temporaire !
-        
-        screenPos.x = mp.getPosRelative(body.getPosition().getX(), body.getFarthest(),(int) mp.getSize().getWidth());
-        screenPos.y =  mp.getPosRelative(body.getPosition().getX(), body.getFarthest(),(int) mp.getSize().getWidth());
-        System.out.println(screenPos);
+        this.actualCelestialBody = body;
+        if (mp.getReferenceFrame() == body) {
+            xPos = yPos = mp.getWidth()/2;
+        }else{
 
+            /*change les distances en la distance à laquelle elle correspond à l'écran
+            (la planète la plus éloignée est à 90% 
+            de la moitié de la taille de la fenêtre)*/
+
+            xPos = (int) ((body.getPosition().getX()*(RATIO_FARTHEST*(mp.getSize().getWidth()/2)))/mp.getReferenceFrame().getFarthest()) + mp.getWidth()/2;
+            yPos = (int) ((body.getPosition().getY()*(RATIO_FARTHEST*(mp.getSize().getWidth()/2)))/mp.getReferenceFrame().getFarthest()) + mp.getWidth()/2;
+
+            System.out.println(body.getName()+" : Position a l'écran -> ("+xPos+","+yPos+")");
+        }
     }
 
-    public void setPos(Point p){
-        this.screenPos = p;
+    public int getDiameter() {
+        return diameter;
     }
 
-    public Point getPos(){
-        return screenPos;
+    public void setDiameter(int diameter) {
+        this.diameter = diameter;
+    }
+
+    public void setPos(int x, int y){
+        this.xPos = x ;
+        this.yPos = y;
+    }
+
+    public int getxPos() {
+        return xPos;
+    }
+
+    public int getyPos() {
+        return yPos;
     }
 
 

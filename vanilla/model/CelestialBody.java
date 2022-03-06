@@ -17,10 +17,10 @@ public class CelestialBody {
     private float farthest;
     private float biggest;
 
-    public CelestialBody(String name, /*CelestialBody referenceFrame,*/ Point position, float diameter, float scale,
+    public CelestialBody(String name, CelestialBody referenceFrame, Point position, float diameter, float scale,
             float periodOfRevolution, float periodOfRotation, float distanceFromOrigin) {
         this.name = name;
-        //this.referenceFrame = referenceFrame;
+        this.referenceFrame = referenceFrame;
         this.position = position;
         this.diameter = diameter;
         this.scale = scale;
