@@ -52,13 +52,15 @@ class CelestialBody
     def to_java()
         if (@position.type == :cartesian)
             x = @position.x
+            z = @position.z
             y = @position.y
-            jpoint = Java::java.awt.Point.new(x.to_java(:int),y.to_java(:int))
+            jpoint = Java::vanilla.model.SpacePoint.new(x.to_java(:long),y.to_java(:long))
         elsif (@position.type == :keplerian)
             currentPos = @position.toCartesian(@referenceFrame)
             x = currentPos.x
+            z = currentPos.z
             y = currentPos.y
-            jpoint = Java::java.awt.Point.new(x.to_java(:int),y.to_java(:int))
+            jpoint = Java::vanilla.model.SpacePoint.new(x.to_java(:long),y.to_java(:long))
         else
             jpoint = nil.to_java
         end

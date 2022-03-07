@@ -7,7 +7,7 @@ import java.util.*;
 public class CelestialBody {
     private String name;
     private CelestialBody referenceFrame;
-    private Point position;
+    private SpacePoint position;
     private float diameter;
     private float scale;
     private float periodOfRevolution;
@@ -17,7 +17,7 @@ public class CelestialBody {
     private float farthest;
     private float biggest;
 
-    public CelestialBody(String name, CelestialBody referenceFrame, Point position, float diameter, float scale,
+    public CelestialBody(String name, CelestialBody referenceFrame, SpacePoint position, float diameter, float scale,
             float periodOfRevolution, float periodOfRotation, float distanceFromOrigin) {
         this.name = name;
         this.referenceFrame = referenceFrame;
@@ -33,7 +33,7 @@ public class CelestialBody {
         return this.name;
     }
 
-    public Point getPosition() {
+    public SpacePoint getPosition() {
         return this.position;
     }
 

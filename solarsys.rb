@@ -64,7 +64,7 @@ end
 
 #p sourceBody
 
-JsourceBody = Java::vanilla.model.CelestialBody.new(sourceBody.name,nil, java.awt.Point.new(0,0), sourceBody.diameter, 1, sourceBody.periodOfRevolution, sourceBody.periodOfRotation, sourceBody.distanceFromOrigin)
+JsourceBody = Java::vanilla.model.CelestialBody.new(sourceBody.name,nil, Java::vanilla.model.SpacePoint.new(0,0), sourceBody.diameter, 1, sourceBody.periodOfRevolution, sourceBody.periodOfRotation, sourceBody.distanceFromOrigin)
 #JsourceBody = sourceBody.to_java()
 
 

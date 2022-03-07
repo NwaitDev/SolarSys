@@ -5,7 +5,7 @@ import vanilla.model.CelestialBody;
 
 public class VisibleBody {
     
-    private static final double RATIO_FARTHEST = 0.9;
+    private static final double RATIO_FARTHEST = 0.8;
     private CelestialBody actualCelestialBody;
     private int xPos;
     private int yPos;
@@ -23,8 +23,8 @@ public class VisibleBody {
             (la planète la plus éloignée est à 90% 
             de la moitié de la taille de la fenêtre)*/
 
-            xPos = (int) ((body.getPosition().getX()*(RATIO_FARTHEST*(mp.getSize().getWidth()/2)))/mp.getReferenceFrame().getFarthest()) + mp.getWidth()/2;
-            yPos = (int) ((body.getPosition().getY()*(RATIO_FARTHEST*(mp.getSize().getWidth()/2)))/mp.getReferenceFrame().getFarthest()) + mp.getWidth()/2;
+            xPos = (int) ((body.getPosition().x*(RATIO_FARTHEST*(mp.getSize().getWidth()/2)))/mp.getReferenceFrame().getFarthest()) + mp.getWidth()/2;
+            yPos = (int) ((body.getPosition().y*(RATIO_FARTHEST*(mp.getSize().getWidth()/2)))/mp.getReferenceFrame().getFarthest()) + mp.getWidth()/2;
 
             System.out.println(body.getName()+" : Position a l'écran -> ("+xPos+","+yPos+")");
         }
