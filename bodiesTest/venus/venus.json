@@ -1,0 +1,39 @@
+{
+    "id": "venus",
+    "name": "Vénus",
+    "englishName": "Venus",
+    "isPlanet": true,
+    "moons": null,
+    "semimajorAxis": 108208475,
+    "perihelion": 107477000,
+    "aphelion": 108939000,
+    "eccentricity": 0.0067,
+    "inclination": 3.39,
+    "mass": {
+        "massValue": 4.86747,
+        "massExponent": 24
+    },
+    "vol": {
+        "volValue": 9.2843,
+        "volExponent": 11
+    },
+    "density": 5.243,
+    "gravity": 8.87,
+    "escape": 10360.0,
+    "meanRadius": 6051.8,
+    "equaRadius": 6051.8,
+    "polarRadius": 6051.8,
+    "flattening": 0,
+    "dimension": "",
+    "sideralOrbit": 224.701,
+    "sideralRotation": -5832.5,
+    "aroundPlanet": null,
+    "discoveredBy": "",
+    "discoveryDate": "",
+    "alternativeName": "",
+    "axialTilt": 177.36,
+    "avgTemp": 737,
+    "mainAnomaly": 50.115,
+    "argPeriapsis": 54.78,
+    "longAscNode": 76.785
+}
