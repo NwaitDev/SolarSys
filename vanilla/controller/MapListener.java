@@ -12,12 +12,13 @@ import vanilla.view.VisibleBody;
 
 public class MapListener implements MouseInputListener {
 
-    private static final double CLICK_DIST = 10;
+    private static final double CLICK_DIST = 15;
     VisibleBody refBody;
     ArrayList<VisibleBody> satList;
+    MapPanel mp;
 
     public MapListener(MapPanel mp){
-
+        this.mp = mp;
         refBody = new VisibleBody(mp, mp.getReferenceFrame());
         ArrayList<CelestialBody> temp = mp.getReferenceFrame().getSatelliteList();
         satList = new ArrayList<>();
@@ -31,7 +32,8 @@ public class MapListener implements MouseInputListener {
             Point pos = e.getPoint();
             double distance = Math.sqrt((pos.x - body.getxPos())*(pos.x - body.getxPos())+(pos.y - body.getyPos())*(pos.y - body.getyPos()));
             if(distance<CLICK_DIST){ 
-                System.out.println(body.usefullDataToString());
+                VisibleBody.selected = body;
+                System.out.println(body);
             }
         }
     }
