@@ -12,7 +12,7 @@ require "./cinnamon/Calculs.rb"
 ################################################################################################
 ######################################DEFINITIONS###############################################
 
-bodyDir = "bodies"
+bodyDir = "bodiesTest"
 
 def jsonToCelestialBody(json, aroundWhat)
     name = json["englishName"]
@@ -26,7 +26,7 @@ def jsonToCelestialBody(json, aroundWhat)
         json["inclination"],
         json["longAscNode"],
         json["argPeriapsis"],
-        json["mainAnomaly"]
+        0#json["mainAnomaly"]
     )
     position = position.toCartesian aroundWhat
     avgDistFromOrigin =  Math.sqrt(position.x*position.x+position.y*position.y)
@@ -80,7 +80,7 @@ JsourceBody = Java::vanilla.model.CelestialBody.new(sourceBody.name,nil, Java::v
             # end
             # solarSystem.planetList.each do |body|
             #     jSolarSystem.addPlanet(body.java_Celestialbody)  
-#             # end
+#           # end
 # attr_reader :name, :referenceFrame, :diameter, :periodOfRotation, :periodOfRevolution,
 #  :distanceFromOrigin, :position, :satelliteList, :semiMajorAxis, :eccentricity, :inclination, :ascendingNodeAngle, :periapsisArg, :mainAnom
 #  public CelestialBody(String name, /*CelestialBody referenceFrame,*/ Point position, float diameter, float scale,

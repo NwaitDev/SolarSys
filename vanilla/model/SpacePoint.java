@@ -8,5 +8,7 @@ public class SpacePoint{
         this.x = x;
         this.y = y;
     }
-    
+    public String toString(){
+        return "["+x+","+y+"]";
+    }
 }

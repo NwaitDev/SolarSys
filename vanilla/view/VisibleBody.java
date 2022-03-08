@@ -32,6 +32,10 @@ public class VisibleBody {
         }
     }
 
+    public CelestialBody getActualCelestialBody(){
+        return actualCelestialBody;
+    }
+
     public String toString(){
         return actualCelestialBody.getName()+" ("+xPos+","+yPos+")";
     }
