@@ -15,6 +15,7 @@ public class CelestialBody {
     private float distanceFromOrigin;
     private ArrayList<CelestialBody> satelliteList = new ArrayList<CelestialBody>();
     private float farthest;
+    private float closest;
     private float biggest;
 
     public CelestialBody(String name, CelestialBody referenceFrame, SpacePoint position, float diameter, float scale,
@@ -72,6 +73,7 @@ public class CelestialBody {
 
     public void addSatellite(CelestialBody planet){
         this.satelliteList.add(planet);
+        this.updateClosest();
         this.updateFarthest();
         this.updateBiggest();
     }
@@ -103,12 +105,38 @@ public class CelestialBody {
         this.farthest= (float) max;
     }
 
+    public void updateClosest()
+    {
+        Iterator<CelestialBody> satelliteIter = this.satelliteList.iterator();
+        double min= Double.MAX_VALUE;
+        while (satelliteIter.hasNext()){
+            
+            CelestialBody curr = satelliteIter.next();
+            System.out.println("curr : " + curr.getName());
+            System.out.println("curr x : " + curr.getPosition().x);
+            System.out.println("curr y : " + curr.getPosition().y);
+            double distcurr = Math.sqrt(Math.pow(curr.getPosition().x, 2) + Math.pow(curr.getPosition().y, 2));
+                if (distcurr<min){
+                    min = distcurr;
+                }
+        }
+        this.closest= (float) min;
+    }
+
     public float getFarthest(){
        return this.farthest;
+    }
+
+    public float getClosest()
+    {
+        System.out.println("closest : " + this.closest);
+        return this.closest;
     }
 
     public float getBiggest(){
        return this.biggest;
     }
+
+
 
 }

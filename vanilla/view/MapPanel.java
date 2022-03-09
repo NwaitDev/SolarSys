@@ -12,6 +12,8 @@ public class MapPanel extends JPanel{
     // private SolarSystem solarSystem;
     private CelestialBody referenceFrame;
     private int sizePanel;
+    private VisibleBody refBody;
+    private ArrayList<VisibleBody> satelliteList;
 
     public CelestialBody getReferenceFrame() {
         return referenceFrame;
@@ -22,6 +24,13 @@ public class MapPanel extends JPanel{
         this.referenceFrame = referenceFrame ;
         this.setSize(sizePanel,sizePanel);
         this.sizePanel=sizePanel;
+        this.satelliteList = new ArrayList<>();
+        refBody = new VisibleBody(this, referenceFrame);
+        ArrayList<CelestialBody> temp = referenceFrame.getSatelliteList();
+        for (CelestialBody body : temp) {
+            satelliteList.add(new VisibleBody(this, body));
+        }
+
     }
 
     public void updateView(){
@@ -66,18 +75,14 @@ public class MapPanel extends JPanel{
     private void doDrawing(Graphics g) {
 
         Graphics2D g2d = (Graphics2D) g;
-
-
         // repere : 
         g2d.setColor(Color.red);
 
         g2d.drawLine(sizePanel/2,0,sizePanel/2,sizePanel);
         g2d.drawLine(0,sizePanel/2,sizePanel,sizePanel/2);
 
-
-
         // planetes :
-        Iterator<CelestialBody> IterSatelliteList = this.referenceFrame.getSatelliteList().iterator();
+        Iterator<VisibleBody> IterSatelliteList = satelliteList.iterator();
 
         g2d.setColor(Color.yellow);
         g2d.setFont(new Font("Purisa", Font.PLAIN, 13));
@@ -96,14 +101,13 @@ public class MapPanel extends JPanel{
 
         int h=0;
         while (IterSatelliteList.hasNext()){
-            CelestialBody curr = IterSatelliteList.next();
+            VisibleBody curr = IterSatelliteList.next();
 
+            String xS = Integer.toString(curr.getxPos());
+            String yS = Integer.toString(curr.getyPos());
 
-            String xS = Integer.toString(getPosRelative(curr.getPosition().x, farthest, sizePanel));
-            String yS = Integer.toString(getPosRelative(curr.getPosition().y, farthest, sizePanel));
-
-            int x = getPosRelative(curr.getPosition().x, farthest, sizePanel);
-            int y = getPosRelative(curr.getPosition().y, farthest, sizePanel);
+            int x = curr.getxPos();
+            int y = curr.getyPos();
 
             //float w = curr.getDiameter() * scaleWidth;
             int w =15;

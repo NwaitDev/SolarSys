@@ -66,12 +66,8 @@ end
 
 JsourceBody = Java::vanilla.model.CelestialBody.new(sourceBody.name,nil, Java::vanilla.model.SpacePoint.new(0,0), sourceBody.diameter, 1, sourceBody.periodOfRevolution, sourceBody.periodOfRotation, sourceBody.distanceFromOrigin)
 #JsourceBody = sourceBody.to_java()
-
-
     sourceBody.satelliteList.each do |body|
-        if body.name != "Pluto"
-            JsourceBody.addSatellite(body.to_java())  
-        end  
+        JsourceBody.addSatellite(body.to_java())  
     end
 
   #ce qu'on avait avant :
