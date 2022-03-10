@@ -5,7 +5,7 @@ import vanilla.model.CelestialBody;
 
 public class VisibleBody {
     
-    private static double ratioFarthest = 0.8;
+    private static double ratioFarthest;
 
     private CelestialBody actualCelestialBody;
     private static final int DEFAULT_TEXT_WIDTH = 30;
@@ -20,23 +20,27 @@ public class VisibleBody {
         this.actualCelestialBody = body;
 
        // ratioFarthest =  0.9 *   (mp.getReferenceFrame().getClosest() / mp.getReferenceFrame().getFarthest()) ;
-      ratioFarthest =  0.9 * ( (Math.max(mp.getSize().getWidth(), mp.getSize().getHeight())/2) /   (mp.getReferenceFrame().getFarthest())); 
-
+      ratioFarthest =  0.8 * ( (Math.min(mp.getSize().getWidth(), mp.getSize().getHeight())/2) /   (mp.getReferenceFrame().getFarthest())); 
+      
 
         if (mp.getReferenceFrame() == body) {
             xPos = yPos = mp.getWidth()/2;
         }else{
-
             /*change les distances en la distance à laquelle elle correspond à l'écran
             (la planète la plus éloignée est à 90% 
             de la moitié de la taille de la fenêtre)*/
-            System.out.println("Ratio " + ratioFarthest);
-            xPos = (int)  (((float) (body.getPosition().x))  *ratioFarthest    + (float) (mp.getWidth()/2.0));
-            yPos = (int)  (((float) (body.getPosition().y))  *ratioFarthest    + (float) (mp.getHeight()/2.0));
-
-            System.out.println(body.getName()+" : Position a l'écran -> ("+xPos+","+yPos+")");
+            xPos = (int)  (((float) (body.getPosition().x))  *ratioFarthest + (float) (mp.getWidth()/2.0));
+            yPos = (int)  (((float) (body.getPosition().y))  *ratioFarthest + (float) (mp.getHeight()/2.0));
         }
-    }
+
+    } 
+    /*
+     Mercure : 11 000 000, 40 000 000
+     Venus : 104 000 000, -2 000 000
+     Terre : -129 061 154, -70 580 590
+     Mars : -149 713 201, 125 470 730
+     ratio 1.612589196147937E-6
+     */
 
     public CelestialBody getActualCelestialBody(){
         return actualCelestialBody;

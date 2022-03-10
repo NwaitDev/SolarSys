@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import javax.swing.event.MouseInputListener;
 
-import vanilla.model.CelestialBody;
 import vanilla.view.MapPanel;
 import vanilla.view.VisibleBody;
 
@@ -19,12 +18,9 @@ public class MapListener implements MouseInputListener {
 
     public MapListener(MapPanel mp){
         this.mp = mp;
-        refBody = new VisibleBody(mp, mp.getReferenceFrame());
-        ArrayList<CelestialBody> temp = mp.getReferenceFrame().getSatelliteList();
-        satList = new ArrayList<>();
-        for (CelestialBody body : temp) {
-            satList.add(new VisibleBody(mp, body));
-        }
+        refBody = mp.getRefBody();
+        satList =  mp.getSatelliteList();
+        
     }
 
     public void mouseClicked(MouseEvent e) {

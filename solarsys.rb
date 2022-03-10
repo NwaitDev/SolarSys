@@ -12,7 +12,7 @@ require "./cinnamon/Calculs.rb"
 ################################################################################################
 ######################################DEFINITIONS###############################################
 
-bodyDir = "bodiesTest"
+bodyDir = "bodies"
 
 def jsonToCelestialBody(json, aroundWhat)
     name = json["englishName"]

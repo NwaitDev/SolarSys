@@ -17,7 +17,7 @@ import vanilla.model.CelestialBody;
 
 
 public class Window extends JFrame{
-    public static final int sizeMap = 1000;
+    public static final int sizeMap = 700;
     private Dimension dim = new Dimension(sizeMap, sizeMap);
     private Container content;
     private ArrayList<JPanel> panels;

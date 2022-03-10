@@ -33,43 +33,19 @@ public class MapPanel extends JPanel{
 
     }
 
-    public void updateView(){
-        //referenceFrame.print();
-        
+    public ArrayList<VisibleBody> getSatelliteList(){
+        return satelliteList;
     }
 
-    // public void addSun(CelestialBody body){
-    //     this.referenceFrame.addSun(body);
-    // }
-
-    // public void addPlanet(CelestialBody body){
-    //     this.solarSystem.addPlanet(body);
-    // }
-
+    public VisibleBody getRefBody(){
+        return refBody;
+    }
 
     /*********************** REPERE *********************/
 
-    private int getCoord(int x){
-        /*
-        prend une distance et lui ajoute la moitié de la taille de l'écran
-        */
-        return x + sizePanel/2;
-    }
-
-    protected int getPosRelative(double curr, float farthest, int sizePanel){
-        /*
-        prend une DISTANCE (curr) 
-        (et pas une position comme son nom semble l'indiquer)
-        et retourne la distance à laquelle elle correspond à l'écran
-        (la planète la plus éloignée est à 90% 
-        de la moitié de la taille de la fenêtre)
-        */
-        return (int) ((curr*(0.9*(sizePanel/2)))/farthest); 
-    }
-
 
     private void drawOval(Graphics2D g2d, int x, int y, int w, int h){
-        g2d.fillOval(getCoord(x) - w/2,getCoord(y) - h/2, w,h);
+        g2d.fillOval(x - w/2,y - h/2, w,h);
     }
 
     private void doDrawing(Graphics g) {
@@ -89,22 +65,16 @@ public class MapPanel extends JPanel{
 
         //draw Reference
         int refWidth = 30;
-        drawOval(g2d, 0, 0, refWidth, refWidth);
+        drawOval(g2d, sizePanel/2, sizePanel/2, refWidth, refWidth);
 
         g2d.setColor(Color.blue);
-
-        // finding scale for distance
-        int farthest = (int) this.referenceFrame.getFarthest(); // récupérer la plus grande distance pour calculer l'echelle d'affichage
-
-        //finding scale for width
-        
 
         int h=0;
         while (IterSatelliteList.hasNext()){
             VisibleBody curr = IterSatelliteList.next();
-
-            String xS = Integer.toString(curr.getxPos());
-            String yS = Integer.toString(curr.getyPos());
+            System.out.println(curr);
+            String xS = Integer.toString(curr.getxPos()-sizePanel/2);
+            String yS = Integer.toString(curr.getyPos()-sizePanel/2);
 
             int x = curr.getxPos();
             int y = curr.getyPos();
@@ -121,7 +91,6 @@ public class MapPanel extends JPanel{
             g2d.drawString(yS, 180, h);
             
         }
-        g2d.drawString(Integer.toString(farthest), 300, h);
         
     }
 

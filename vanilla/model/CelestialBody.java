@@ -1,6 +1,5 @@
 package vanilla.model;
 
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.*;
 
@@ -112,9 +111,6 @@ public class CelestialBody {
         while (satelliteIter.hasNext()){
             
             CelestialBody curr = satelliteIter.next();
-            System.out.println("curr : " + curr.getName());
-            System.out.println("curr x : " + curr.getPosition().x);
-            System.out.println("curr y : " + curr.getPosition().y);
             double distcurr = Math.sqrt(Math.pow(curr.getPosition().x, 2) + Math.pow(curr.getPosition().y, 2));
                 if (distcurr<min){
                     min = distcurr;
@@ -129,7 +125,6 @@ public class CelestialBody {
 
     public float getClosest()
     {
-        System.out.println("closest : " + this.closest);
         return this.closest;
     }
 
