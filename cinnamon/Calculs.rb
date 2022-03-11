@@ -31,7 +31,7 @@ end
 def eccentricAnomaly(meanAnomaly,eccentricity)
     meanAnomaly = meanAnomaly/360.0
     meanAnomaly = 2*Math::PI*(meanAnomaly-meanAnomaly.floor)
-
+    
     def F(estimatedExcentricAnomaly,meanAnomaly)
         estimatedExcentricAnomaly-eccentricity*Math::sin(estimatedExcentricAnomaly)-meanAnomaly
     end
@@ -47,7 +47,7 @@ def eccentricAnomaly(meanAnomaly,eccentricity)
     end
     precision =  0.0000001
 
-    #def newtonsMethod(guess, precision, functionF, derivativeOfFunctionF)
+    # Methode de Newton-Raphson pour calculer les coords courantes des planètes
     max_iteration = 30
     current_iteration = 0
     x = guess
@@ -61,7 +61,7 @@ def eccentricAnomaly(meanAnomaly,eccentricity)
 end
 
 def trueAnomaly(eccentricAnomaly,eccentricity)    
-    2*Math::atan2(Math::sqrt(1+eccentricity)*Math::sin(eccentricAnomaly/2),Math::sqrt(1-eccentricity)*Math::sin(eccentricAnomaly/2))
+    2*Math::atan2(Math::sqrt(1+eccentricity)*Math::sin(eccentricAnomaly/2),Math::sqrt(1-eccentricity)*Math::cos(eccentricAnomaly/2))
 end
 
 def distanceFromCentralBody(eccentricity,semiMajorAxis, eccentricAnomaly)

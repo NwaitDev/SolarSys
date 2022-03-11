@@ -26,7 +26,7 @@ def jsonToCelestialBody(json, aroundWhat)
         json["inclination"],
         json["longAscNode"],
         json["argPeriapsis"],
-        0#json["mainAnomaly"]
+        json["mainAnomaly"]
     )
     position = position.toCartesian aroundWhat
     avgDistFromOrigin =  Math.sqrt(position.x*position.x+position.y*position.y)
@@ -62,26 +62,10 @@ for entry in entries
     end
 end
 
-#p sourceBody
-
 JsourceBody = Java::vanilla.model.CelestialBody.new(sourceBody.name,nil, Java::vanilla.model.SpacePoint.new(0,0), sourceBody.diameter, 1, sourceBody.periodOfRevolution, sourceBody.periodOfRotation, sourceBody.distanceFromOrigin)
-#JsourceBody = sourceBody.to_java()
+
     sourceBody.satelliteList.each do |body|
         JsourceBody.addSatellite(body.to_java())  
     end
-
-  #ce qu'on avait avant :
-            # solarSystem.sunList.each do |body|
-            #     jSolarSystem.addSun(body.java_Celestialbody)    
-            # end
-            # solarSystem.planetList.each do |body|
-            #     jSolarSystem.addPlanet(body.java_Celestialbody)  
-#           # end
-# attr_reader :name, :referenceFrame, :diameter, :periodOfRotation, :periodOfRevolution,
-#  :distanceFromOrigin, :position, :satelliteList, :semiMajorAxis, :eccentricity, :inclination, :ascendingNodeAngle, :periapsisArg, :mainAnom
-#  public CelestialBody(String name, /*CelestialBody referenceFrame,*/ Point position, float diameter, float scale,
-#     float periodOfRevolution, float periodOfRotation, float distanceFromOrigin) {
-
-#TODO : avoir les infos de sourceBody dans JsourceBody
 
 $window = Java::vanilla.view.Window.new(JsourceBody)
