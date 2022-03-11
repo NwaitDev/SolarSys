@@ -1,11 +1,13 @@
 package vanilla.view;
 
 import vanilla.model.CelestialBody;
+import vanilla.model.SpacePoint;
 
 
 public class VisibleBody {
     
-    private static double ratioFarthest;
+    //private static double ratioFarthest;
+    //private static double ratioDiameter;
 
     private CelestialBody actualCelestialBody;
     private static final int DEFAULT_TEXT_WIDTH = 30;
@@ -19,9 +21,9 @@ public class VisibleBody {
 
         this.actualCelestialBody = body;
 
-       // ratioFarthest =  0.9 *   (mp.getReferenceFrame().getClosest() / mp.getReferenceFrame().getFarthest()) ;
-      ratioFarthest =  0.8 * ( (Math.min(mp.getSize().getWidth(), mp.getSize().getHeight())/2) /   (mp.getReferenceFrame().getFarthest())); 
-      
+        // ratioFarthest =  0.9 *   (mp.getReferenceFrame().getClosest() / mp.getReferenceFrame().getFarthest()) ;
+        //ratioFarthest =  0.8 * ( (Math.min(mp.getSize().getWidth(), mp.getSize().getHeight())/2) /   (mp.getReferenceFrame().getFarthest())); 
+        double ratioFarthest = mp.getRatioFarthest();
 
         if (mp.getReferenceFrame() == body) {
             xPos = yPos = mp.getWidth()/2;
@@ -33,7 +35,12 @@ public class VisibleBody {
             yPos = (int)  (((float) (body.getPosition().y))  *ratioFarthest + (float) (mp.getHeight()/2.0));
         }
 
+        /* diameter is set after alla visibleBodies are added in mapPanel
+        because of the calcul of the ratio
+        so for now diameter is just 0*/
+        diameter = 0;
     } 
+
     /*
      Mercure : 11 000 000, 40 000 000
      Venus : 104 000 000, -2 000 000
@@ -54,8 +61,16 @@ public class VisibleBody {
         return diameter;
     }
 
+    public float getRealDiameter() {
+        return actualCelestialBody.getDiameter();
+    }
+
     public void setDiameter(int diameter) {
         this.diameter = diameter;
+    }
+
+    public void setDiameterAccordingToRatio(double ratioDiameter){
+        diameter =(int) (actualCelestialBody.getDiameter() * ratioDiameter);
     }
 
     public void setPos(int x, int y){
@@ -69,6 +84,14 @@ public class VisibleBody {
 
     public int getyPos() {
         return yPos;
+    }
+
+    public double getDistance(MapPanel mp){
+        return Math.sqrt(Math.pow(xPos-(mp.getSize().getHeight()/2), 2) + Math.pow(yPos-(mp.getSize().getWidth()/2), 2));
+    }
+
+    public SpacePoint getRealPosition() {
+        return actualCelestialBody.getPosition();
     }
 
     public String getName(){
@@ -108,6 +131,4 @@ public class VisibleBody {
                 "\nPeriod of revolution around "+actualCelestialBody.getReferenceFrame().getName()+" : "+actualCelestialBody.getPeriodOfRevolution()+" earth days\n"+
                 "Period of rotation : "+actualCelestialBody.getPeriodOfRotation()+" hours",DEFAULT_TEXT_WIDTH);
     }
-
-
 }

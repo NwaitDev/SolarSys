@@ -61,6 +61,7 @@ public class CelestialBody {
         return distanceFromOrigin;
     }
 
+
     public ArrayList<CelestialBody> getSatelliteList(){
         return this.satelliteList;
     }
