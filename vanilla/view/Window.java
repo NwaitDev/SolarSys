@@ -33,7 +33,7 @@ public class Window extends JFrame{
     }
 
     public Window(CelestialBody s){
-        super("SolarSys");
+        super("SolarSys : "+ s.getName()+" and its satellites");
         this.setSize(dim);
         this.setLocationRelativeTo(null);
         content = this.getContentPane();

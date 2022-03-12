@@ -73,7 +73,6 @@ public class CelestialBody {
     }
 
     public void jAddSatellite(CelestialBody body){
-        System.out.println("appel de la methode java");
         this.satelliteList.add(body);
         this.updateClosest();
         this.updateFarthest();

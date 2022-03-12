@@ -27,9 +27,8 @@ public class MapListener implements MouseInputListener {
         for (VisibleBody body : satList) {
             Point pos = e.getPoint();
             double distance = Math.sqrt((pos.x - body.getxPos())*(pos.x - body.getxPos())+(pos.y - body.getyPos())*(pos.y - body.getyPos()));
-            if(distance<1+body.getDiameter()/2){ 
+            if(distance<1+body.getDiameter()/2){ //Le +1, c'est pour avoir une chance de cliquer sur pluton et mercure mdr
                 VisibleBody.selected = body;
-                System.out.println(body);
                 new Window(body.getActualCelestialBody());
             }
         }

@@ -27,11 +27,6 @@ public class MapPanel extends JPanel{
     MapPanel(CelestialBody referenceFrame , int sizePanel){
         super();
 
-        System.out.println("Liste des satellites : ");
-        for (CelestialBody body : referenceFrame.getSatelliteList()) {
-            System.out.println(body.getName());
-        }
-
         this.referenceFrame = referenceFrame ;
         this.setSize(sizePanel,sizePanel);
         this.sizePanel=sizePanel;
