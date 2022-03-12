@@ -57,7 +57,6 @@ def eccentricAnomaly(meanAnomaly,eccentricity)
         f = F(x,meanAnomaly)
     end
     x
-    #end
 end
 
 def trueAnomaly(eccentricAnomaly,eccentricity)    
@@ -69,16 +68,14 @@ def distanceFromCentralBody(eccentricity,semiMajorAxis, eccentricAnomaly)
 end
 
 def orbitalFrameCartesianCoord(semiMajorAxis, trueAnomaly, distanceFromCentralBody,mu,eccentricAnomaly)
-    factPos = distanceFromCentralBody
-    x = factPos * Math::cos(trueAnomaly)
-    y = factPos * Math::sin(trueAnomaly)
+    x = distanceFromCentralBody * Math::cos(trueAnomaly)
+    y = distanceFromCentralBody * Math::sin(trueAnomaly)
     z = 0
 
     factSpeed = Math::sqrt(mu*semiMajorAxis)/distanceFromCentralBody
     xSpeed = factSpeed * (-Math::sin(eccentricAnomaly))
     ySpeed = factSpeed * Math::sqrt(1-eccentricity**2)*Math::cos(eccentricAnomaly)
     zSpeed = 0
-
     CartesianCoord.new(x,y,z,xSpeed,ySpeed,zSpeed)
 end
 
@@ -104,10 +101,6 @@ class Coords
     def initialize()
         @type = :undefined
     end
-
-    # def type
-    #     @type
-    # end
 end
 
 class CartesianCoord < Coords
@@ -141,7 +134,7 @@ class KeplerCoord < Coords
         trueAnomaly = trueAnomaly(eccentricAnomaly,eccentricity)
         distanceFromCentralBody = distanceFromCentralBody(@eccentricity,@semiMajorAxis, eccentricAnomaly)
         orbitalCoords = orbitalFrameCartesianCoord(@semiMajorAxis, trueAnomaly, distanceFromCentralBody,mu(referentialBody),eccentricAnomaly)
-        
-        bodyCentricFrameCartesianCoord(orbitalCoords,@inclination,@periapsisArg,@ascendingNodeAngle)
+        orbitalCoords
+        #bodyCentricFrameCartesianCoord(orbitalCoords,@inclination,@periapsisArg,@ascendingNodeAngle) # à ajouter pour coordonnées en 3D
     end
 end

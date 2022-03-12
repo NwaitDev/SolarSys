@@ -170,7 +170,6 @@ public class MapPanel extends JPanel{
         int h=0;
         while (IterSatelliteList.hasNext()){
             VisibleBody curr = IterSatelliteList.next();
-            System.out.println(curr);
             String xS = Integer.toString(curr.getxPos()-sizePanel/2);
             String yS = Integer.toString(curr.getyPos()-sizePanel/2);
 
