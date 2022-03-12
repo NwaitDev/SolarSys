@@ -26,6 +26,12 @@ public class MapPanel extends JPanel{
 
     MapPanel(CelestialBody referenceFrame , int sizePanel){
         super();
+
+        System.out.println("Liste des satellites : ");
+        for (CelestialBody body : referenceFrame.getSatelliteList()) {
+            System.out.println(body.getName());
+        }
+
         this.referenceFrame = referenceFrame ;
         this.setSize(sizePanel,sizePanel);
         this.sizePanel=sizePanel;
@@ -43,7 +49,7 @@ public class MapPanel extends JPanel{
         ratioDiameter = calculRatioDiameter();
         //set diameter according to previously calculated ratio for all visible bodies
         setDiameterVisibleBodies();
-
+        
     }
 
     /*
@@ -146,50 +152,82 @@ public class MapPanel extends JPanel{
         g2d.fillOval(x - w/2,y - h/2, w,h);
     }
 
+    Color chooseColor(String bodyName){
+        Color c = Color.GRAY;
+        if(bodyName.equals("Sun")){
+            c = Color.YELLOW;
+        }
+        if(bodyName.equals("Mercury")){
+            c = Color.ORANGE;
+        }
+        if(bodyName.equals("Venus")){
+            c = Color.lightGray;
+        }
+        if(bodyName.equals("Earth")){
+            c = Color.BLUE;
+        }
+        if(bodyName.equals("Mars")){
+            c = Color.ORANGE;
+        }
+        if(bodyName.equals("Jupiter")){
+            c = Color.ORANGE;
+        }
+        if(bodyName.equals("Saturn")){
+            c = Color.YELLOW;
+        }
+        if(bodyName.equals("Uranus")){
+            c = Color.lightGray;
+        }
+        if(bodyName.equals("Neptune")){
+            c = Color.BLUE;
+        }
+        return c;
+    }
+
     private void doDrawing(Graphics g) {
 
         Graphics2D g2d = (Graphics2D) g;
+        /*
         // repere : 
         g2d.setColor(Color.red);
 
         g2d.drawLine(sizePanel/2,0,sizePanel/2,sizePanel);
         g2d.drawLine(0,sizePanel/2,sizePanel,sizePanel/2);
-
+        */
         // planetes :
         Iterator<VisibleBody> IterSatelliteList = satelliteList.iterator();
 
-        g2d.setColor(Color.yellow);
+        g2d.setColor(chooseColor(getRefBody().getName()));
         g2d.setFont(new Font("Purisa", Font.PLAIN, 13));
 
         //draw Reference
         int refWidth = 30;
         drawOval(g2d, sizePanel/2, sizePanel/2, refWidth, refWidth);
 
-        g2d.setColor(Color.blue);
-
         int h=0;
         while (IterSatelliteList.hasNext()){
             VisibleBody curr = IterSatelliteList.next();
-            String xS = Integer.toString(curr.getxPos()-sizePanel/2);
-            String yS = Integer.toString(curr.getyPos()-sizePanel/2);
-
             int x = curr.getxPos();
             int y = curr.getyPos();
 
             int w = curr.getDiameter();
             //int w =15;
+
+            g2d.setColor(chooseColor(curr.getName()));
             drawOval(g2d, x, y, w, w);
 
-
             String name= curr.getName();
-            h+=20;
             g2d.setColor(Color.red);
             g2d.drawString(name, x, y);
             g2d.setColor(Color.blue);
+            /*
+            String xS = Integer.toString(curr.getxPos()-sizePanel/2);
+            String yS = Integer.toString(curr.getyPos()-sizePanel/2);
+            h+=20;
             g2d.drawString(name, 20, h);
             g2d.drawString(xS, 100, h);
             g2d.drawString(yS, 180, h);
-            
+            */
         }
 
 

@@ -31,6 +31,10 @@ class CelestialBody
     #    @position = CartesianCoord.new(x,y,z,xSpeed,ySpeed,zSpeed)
     #end
 
+    def addSatellite(celestialBody)
+        @satelliteList.push(celestialBody)            
+    end
+
     def setKeplerianCoordinates(semiMajorAxis, eccentricity, inclination, ascendingNodeAngle, periapsisArg, mainAnom)
         @position = KeplerCoord.new(semiMajorAxis, eccentricity, inclination, ascendingNodeAngle, periapsisArg, mainAnom)
         @semiMajorAxis = semiMajorAxis
@@ -43,10 +47,6 @@ class CelestialBody
 
     def getCoordAfter(dayShift)
         KeplerCoord.new(@semiMajorAxis, @eccentricity, @inclination, @ascendingNodeAngle, @periapsisArg, (@mainAnom+dayShift/@periodOfRevolution)%360).toCartesian(@referenceFrame)
-    end
-
-    def addSatellite(celestialBody)
-        @satelliteList.push(celestialBody)             
     end
 
     def to_java()
@@ -67,9 +67,9 @@ class CelestialBody
 
         scale = 1;
 
-        Java::vanilla.model.CelestialBody.new(
+        jBody = Java::vanilla.model.CelestialBody.new(
             @name.to_java(:String),
-            @referenceFrame.to_java,
+            @referenceFrame.to_java(:String),
             jpoint,
             @diameter.to_java(:float),
             scale,
@@ -77,5 +77,11 @@ class CelestialBody
             @periodOfRotation.to_java(:float),
             @distanceFromOrigin.to_java(:float)
         )
+
+        @satelliteList.each do |body|
+            jBody.jAddSatellite(body.to_java)
+        end
+
+        jBody
     end
 end

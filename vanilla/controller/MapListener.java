@@ -8,10 +8,10 @@ import javax.swing.event.MouseInputListener;
 
 import vanilla.view.MapPanel;
 import vanilla.view.VisibleBody;
+import vanilla.view.Window;
 
 public class MapListener implements MouseInputListener {
 
-    private static final double CLICK_DIST = 15;
     VisibleBody refBody;
     ArrayList<VisibleBody> satList;
     MapPanel mp;
@@ -27,9 +27,10 @@ public class MapListener implements MouseInputListener {
         for (VisibleBody body : satList) {
             Point pos = e.getPoint();
             double distance = Math.sqrt((pos.x - body.getxPos())*(pos.x - body.getxPos())+(pos.y - body.getyPos())*(pos.y - body.getyPos()));
-            if(distance<CLICK_DIST){ 
+            if(distance<1+body.getDiameter()/2){ 
                 VisibleBody.selected = body;
                 System.out.println(body);
+                new Window(body.getActualCelestialBody());
             }
         }
     }

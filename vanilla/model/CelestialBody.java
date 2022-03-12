@@ -5,19 +5,19 @@ import java.util.*;
 
 public class CelestialBody {
     private String name;
-    private CelestialBody referenceFrame;
+    private String referenceFrame;
     private SpacePoint position;
     private float diameter;
     private float scale;
     private float periodOfRevolution;
     private float periodOfRotation;
     private float distanceFromOrigin;
-    private ArrayList<CelestialBody> satelliteList = new ArrayList<CelestialBody>();
+    private ArrayList<CelestialBody> satelliteList;
     private float farthest;
     private float closest;
     private float biggest;
 
-    public CelestialBody(String name, CelestialBody referenceFrame, SpacePoint position, float diameter, float scale,
+    public CelestialBody(String name, String referenceFrame, SpacePoint position, float diameter, float scale,
             float periodOfRevolution, float periodOfRotation, float distanceFromOrigin) {
         this.name = name;
         this.referenceFrame = referenceFrame;
@@ -27,6 +27,7 @@ public class CelestialBody {
         this.periodOfRevolution = periodOfRevolution;
         this.periodOfRotation = periodOfRotation;
         this.distanceFromOrigin = distanceFromOrigin;
+        this.satelliteList = new ArrayList<CelestialBody>();
     }
 
     public String getName() {
@@ -37,7 +38,7 @@ public class CelestialBody {
         return this.position;
     }
 
-    public CelestialBody getReferenceFrame() {
+    public String getReferenceFrame() {
         return referenceFrame;
     }
 
@@ -71,8 +72,9 @@ public class CelestialBody {
         return this.name== other.name;
     }
 
-    public void addSatellite(CelestialBody planet){
-        this.satelliteList.add(planet);
+    public void jAddSatellite(CelestialBody body){
+        System.out.println("appel de la methode java");
+        this.satelliteList.add(body);
         this.updateClosest();
         this.updateFarthest();
         this.updateBiggest();

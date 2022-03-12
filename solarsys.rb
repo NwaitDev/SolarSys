@@ -16,7 +16,7 @@ bodyDir = "bodies"
 
 def jsonToCelestialBody(json, aroundWhat)
     name = json["englishName"]
-    referenceFrame = aroundWhat
+    referenceFrame = aroundWhat.name
     diameter = 2*json["meanRadius"]
     revolutionPeriod = json["sideralOrbit"]
     periodOfRotation = json["sideralRotation"]
@@ -64,8 +64,8 @@ end
 
 JsourceBody = Java::vanilla.model.CelestialBody.new(sourceBody.name,nil, Java::vanilla.model.SpacePoint.new(0,0), sourceBody.diameter, 1, sourceBody.periodOfRevolution, sourceBody.periodOfRotation, sourceBody.distanceFromOrigin)
 
-    sourceBody.satelliteList.each do |body|
-        JsourceBody.addSatellite(body.to_java())  
-    end
+sourceBody.satelliteList.each do |thebody|
+    JsourceBody.jAddSatellite(thebody.to_java()) 
+end
 
 $window = Java::vanilla.view.Window.new(JsourceBody)

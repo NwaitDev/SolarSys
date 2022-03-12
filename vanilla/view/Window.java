@@ -17,11 +17,20 @@ import vanilla.model.CelestialBody;
 
 
 public class Window extends JFrame{
-    public static final int sizeMap = 1200;
+    public static final int sizeMap = 700;
     private Dimension dim = new Dimension(sizeMap, sizeMap);
     private Container content;
     private ArrayList<JPanel> panels;
 
+
+    public void addMapPanel(CelestialBody centricBody){
+        MapPanel map = new MapPanel(centricBody, sizeMap);
+        map.setBackground(Color.BLACK);
+        panels.add(map);
+        content.add(map);
+        MouseInputListener listener = new MapListener(map);
+        map.addMouseListener(listener);
+    }
 
     public Window(CelestialBody s){
         super("SolarSys");
@@ -31,18 +40,9 @@ public class Window extends JFrame{
         content.setLayout(new BorderLayout());
         panels = new ArrayList<JPanel>();
 
-        MapPanel map = new MapPanel(s, sizeMap);
-        map.setBackground(Color.BLACK);
-
-
-        panels.add(map);
-
-        content.add(map);
-
-        MouseInputListener listener = new MapListener(map);
-        map.addMouseListener(listener);
-
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        addMapPanel(s);
+        this.setResizable(false);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setVisible(true);
     }
 }

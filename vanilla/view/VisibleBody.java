@@ -126,9 +126,9 @@ public class VisibleBody {
     public String usefullDataToString() {
         return format("Name : "+actualCelestialBody.getName() +
                 "\nDiameter : "+actualCelestialBody.getDiameter()+
-                "\nAverage distance to "+actualCelestialBody.getReferenceFrame().getName()+" : "+
+                "\nAverage distance to "+actualCelestialBody.getReferenceFrame()+" : "+
                 actualCelestialBody.getDistanceFromOrigin()+
-                "\nPeriod of revolution around "+actualCelestialBody.getReferenceFrame().getName()+" : "+actualCelestialBody.getPeriodOfRevolution()+" earth days\n"+
+                "\nPeriod of revolution around "+actualCelestialBody.getReferenceFrame()+" : "+actualCelestialBody.getPeriodOfRevolution()+" earth days\n"+
                 "Period of rotation : "+actualCelestialBody.getPeriodOfRotation()+" hours",DEFAULT_TEXT_WIDTH);
     }
 }
