@@ -21,6 +21,10 @@ public class MapPanel extends JPanel{
     private double ratioFarthest;
     private double ratioDiameter;
 
+    private boolean refAtRatio; //true if the reference frame respect rztiodiameter
+
+    private double distanceBetweenConst;
+
     public CelestialBody getReferenceFrame() {
         return referenceFrame;
     }
@@ -32,15 +36,22 @@ public class MapPanel extends JPanel{
         this.setSize(sizePanel,sizePanel);
         this.sizePanel=sizePanel;
 
+        refAtRatio = false;
+
+       ratioFarthest =  0.8 * ( (Math.min(this.getSize().getWidth(), this.getSize().getHeight())/2) /   (this.getReferenceFrame().getFarthest())); 
         ratioFarthest =  0.8 * ( (Math.min(this.getSize().getWidth(), this.getSize().getHeight())/2) /   (this.getReferenceFrame().getFarthest())); 
+       ratioFarthest =  0.8 * ( (Math.min(this.getSize().getWidth(), this.getSize().getHeight())/2) /   (this.getReferenceFrame().getFarthest())); 
+        
 
         this.satelliteList = new ArrayList<>();
         refBody = new VisibleBody(this, referenceFrame);
         ArrayList<CelestialBody> temp = referenceFrame.getSatelliteList();
         for (CelestialBody body : temp) {
             insertInOrder(body);
-            //satelliteList.add(new VisibleBody(this, body));
         }
+
+        //move all visible bodies in order to have the same distrance between all of them
+        setDistanceBetweenConst();
 
         ratioDiameter = calculRatioDiameter();
         //set diameter according to previously calculated ratio for all visible bodies
@@ -82,35 +93,85 @@ public class MapPanel extends JPanel{
         satelliteList.add(vBody);
     }
 
+    /*
+        Function that set distances between all satellite with the same distance
+    */
+    private void setDistanceBetweenConst(){
+        distanceBetweenConst = (this.getSize().getWidth()/2) / (referenceFrame.getSatelliteList().size() + 1);
+        
+        double distance = distanceBetweenConst;
+
+        Iterator<VisibleBody> IterSatelliteList = satelliteList.iterator();
+        
+        while (IterSatelliteList.hasNext()){
+            VisibleBody curr = IterSatelliteList.next();
+           
+            curr.moveAccordingDistance(distance, this);
+            distance += distanceBetweenConst;
+        }
+    }
+
+    private double getbiggestDiameter(){
+        Iterator<VisibleBody> satelliteIter = satelliteList.iterator();
+        double maxDiameter = 0;
+        while (satelliteIter.hasNext()){
+           VisibleBody currBody = satelliteIter.next();
+            if (currBody.getRealDiameter() > maxDiameter){
+                maxDiameter=currBody.getRealDiameter();
+            }
+        }
+        return maxDiameter;
+    }
+
+
     public double calculRatioDiameter(){
         Iterator<VisibleBody> satelliteIter = satelliteList.iterator();
         double minRatio= Double.POSITIVE_INFINITY;
         double currRatio=0;
 
+
         VisibleBody prevBody = null;
         double prevRealRadius=0;
         double prevDist = 0;
 
-        if (satelliteIter.hasNext()){
-            prevBody = satelliteIter.next();
-            prevRealRadius = prevBody.getRealDiameter()/2;
-            //prevRealPos = prevBody.getRealPosition();
-            prevDist = prevBody.getDistance(this);
-            minRatio = (Math.min(this.getSize().getWidth(), this.getSize().getHeight())/4) /  prevRealRadius ; // min ratio initialization in the case of one satellite
+        if ((referenceFrame.getDiameter() / this.getbiggestDiameter()) < 5){
+            refAtRatio = true;
+            prevBody = new VisibleBody(this, referenceFrame);
+            prevRealRadius=referenceFrame.getDiameter()/2;
+            prevDist = 0;
+            //System.out.println("hello"+ this.getbiggestDiameter() +"   " + referenceFrame.getDiameter());
         }
 
         VisibleBody currBody;
         double currRealRadius=0;
         double currDist = 0;
+        
+
+        if (satelliteIter.hasNext()){
+            currBody = satelliteIter.next();
+            currRealRadius = currBody.getRealDiameter()/2;
+            currDist = currBody.getDistance(this);
+            if (refAtRatio){
+                double newMaxRadius = (distanceBetweenConst * Math.max(prevRealRadius , currRealRadius)) / (prevRealRadius + currRealRadius);
+                minRatio = newMaxRadius / Math.max(prevRealRadius , currRealRadius);
+            }else{
+                minRatio = (Math.min(this.getSize().getWidth(), this.getSize().getHeight())/4) /  currRealRadius ; // min ratio initialization in the case of one satellite
+            }
+            prevBody = currBody;
+            prevRealRadius = currRealRadius;
+            prevDist = currDist;
+        }
+
+        
         while (satelliteIter.hasNext()){
             currBody = satelliteIter.next();
             currRealRadius = currBody.getRealDiameter()/2;
             currDist = currBody.getDistance(this);
 
 
-            double distBetween = Math.sqrt(Math.pow( Math.abs(prevBody.getxPos() - currBody.getxPos()), 2) + Math.pow(Math.abs(prevBody.getyPos() - currBody.getyPos()), 2));
+            //double distBetween = Math.sqrt(Math.pow( Math.abs(prevBody.getxPos() - currBody.getxPos()), 2) + Math.pow(Math.abs(prevBody.getyPos() - currBody.getyPos()), 2));
             // System.out.println(distBetween);
-            //double distBetween = this.getSize().getWidth() / 2 / satelliteList.size();
+            double distBetween = distanceBetweenConst;
             
             double newMaxRadius = (distBetween * Math.max(prevRealRadius , currRealRadius)) / (prevRealRadius + currRealRadius);
             currRatio = newMaxRadius / Math.max(prevRealRadius , currRealRadius);
@@ -123,6 +184,8 @@ public class MapPanel extends JPanel{
             prevRealRadius = currRealRadius;
             prevDist = currDist;
         }
+
+        
 
         return minRatio;
     }
@@ -214,7 +277,8 @@ public class MapPanel extends JPanel{
 
         //draw Reference
         //int refWidth = (int) (referenceFrame.getDiameter() * ratioDiameter);
-        int refWidth = 30;
+        
+        int refWidth = refAtRatio ? (int) (referenceFrame.getDiameter() * ratioDiameter) : 30;
         drawOval(g2d, sizePanel/2, sizePanel/2, refWidth, refWidth);
 
         int h=0;
@@ -233,19 +297,22 @@ public class MapPanel extends JPanel{
             g2d.setColor(Color.red);
             g2d.drawString(name, x, y);
             g2d.setColor(Color.blue);
-            /*
-            String xS = Integer.toString(curr.getxPos()-sizePanel/2);
-            String yS = Integer.toString(curr.getyPos()-sizePanel/2);
-            h+=20;
-            g2d.drawString(name, 20, h);
-            g2d.drawString(xS, 100, h);
-            g2d.drawString(yS, 180, h);
-            */
+            
+            //debug
+            // String xS = Integer.toString(curr.getxPos()-sizePanel/2);
+            // String yS = Integer.toString(curr.getyPos()-sizePanel/2);
+            // h+=20;
+            // g2d.drawString(name, 20, h);
+            // g2d.drawString(xS, 100, h);
+            // g2d.drawString(yS, 180, h);
+            
         }
 
+        //System.out.println(ratioDiameter);
 
 
-        // //affichage pour debug
+
+        //affichage pour debug
         // Iterator<VisibleBody> IterSatelliteList2 = satelliteList.iterator();
         // int h2=40;
         // while (IterSatelliteList2.hasNext()){

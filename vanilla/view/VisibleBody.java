@@ -31,9 +31,15 @@ public class VisibleBody {
             /*change les distances en la distance à laquelle elle correspond à l'écran
             (la planète la plus éloignée est à 90% 
             de la moitié de la taille de la fenêtre)*/
-                                                                    //+15 in order to avoid collision between sun and close planets
-            xPos = (int)  (((float) (body.getPosition().x))  *ratioFarthest + (float) (mp.getWidth()/2.0));  //TODO with angle cos sin +15
+
+            xPos = (int)  (((float) (body.getPosition().x))  *ratioFarthest + (float) (mp.getWidth()/2.0));  
             yPos = (int)  (((float) (body.getPosition().y))  *ratioFarthest + (float) (mp.getHeight()/2.0));
+            
+            
+            
+            // xPos = (int)(((body.getPosition().x) * 30) / Math.sqrt(Math.pow((body.getPosition().x), 2) + Math.pow((body.getPosition().y), 2))) + (int)(mp.getWidth()/2.0);
+            // yPos = (int)(((body.getPosition().y) * 30) / Math.sqrt(Math.pow((body.getPosition().x), 2) + Math.pow((body.getPosition().y), 2))) + (int) (mp.getWidth()/2.0);
+
         }
 
         /* diameter is set after alla visibleBodies are added in mapPanel
@@ -94,6 +100,17 @@ public class VisibleBody {
 
     public double getDistance(MapPanel mp){
         return Math.sqrt(Math.pow(xPos-(mp.getSize().getHeight()/2), 2) + Math.pow(yPos-(mp.getSize().getWidth()/2), 2));
+    }
+
+    public void moveAccordingDistance(double dist, MapPanel mp){
+        int x2 = (int)(xPos - (mp.getWidth()/2));
+        int y2 = (int)(yPos - (mp.getWidth()/2));
+
+        x2 = (int)((x2 * dist) / Math.sqrt(Math.pow(x2, 2) + Math.pow(y2, 2)));
+        y2 = (int)((y2 * dist) / Math.sqrt(Math.pow(x2, 2) + Math.pow(y2, 2)));
+
+        this.xPos = (int)(x2 + (mp.getSize().getWidth()/2));
+        this.yPos = (int)(y2 + (mp.getSize().getHeight()/2));
     }
 
     public SpacePoint getRealPosition() {
