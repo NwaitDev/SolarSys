@@ -3,6 +3,7 @@ package vanilla.view;
 import vanilla.model.CelestialBody;
 import vanilla.model.SpacePoint;
 
+import java.awt.*;
 
 public class VisibleBody {
     
@@ -15,14 +16,13 @@ public class VisibleBody {
     private int yPos;
     private int diameter;
     public static VisibleBody selected = null;
+    public Color color;
 
 
     public VisibleBody(MapPanel mp, CelestialBody body){
 
         this.actualCelestialBody = body;
 
-        // ratioFarthest =  0.9 *   (mp.getReferenceFrame().getClosest() / mp.getReferenceFrame().getFarthest()) ;
-        //ratioFarthest =  0.8 * ( (Math.min(mp.getSize().getWidth(), mp.getSize().getHeight())/2) /   (mp.getReferenceFrame().getFarthest())); 
         double ratioFarthest = mp.getRatioFarthest();
 
         if (mp.getReferenceFrame() == body) {
@@ -31,7 +31,8 @@ public class VisibleBody {
             /*change les distances en la distance à laquelle elle correspond à l'écran
             (la planète la plus éloignée est à 90% 
             de la moitié de la taille de la fenêtre)*/
-            xPos = (int)  (((float) (body.getPosition().x))  *ratioFarthest + (float) (mp.getWidth()/2.0));
+                                                                    //+15 in order to avoid collision between sun and close planets
+            xPos = (int)  (((float) (body.getPosition().x))  *ratioFarthest + (float) (mp.getWidth()/2.0));  //TODO with angle cos sin +15
             yPos = (int)  (((float) (body.getPosition().y))  *ratioFarthest + (float) (mp.getHeight()/2.0));
         }
 
@@ -39,6 +40,8 @@ public class VisibleBody {
         because of the calcul of the ratio
         so for now diameter is just 0*/
         diameter = 0;
+
+        color = chooseColor(body.getName());
     } 
 
     /*
@@ -71,6 +74,9 @@ public class VisibleBody {
 
     public void setDiameterAccordingToRatio(double ratioDiameter){
         diameter =(int) (actualCelestialBody.getDiameter() * ratioDiameter);
+        if (diameter < 5){
+            diameter = 5;
+        }
     }
 
     public void setPos(int x, int y){
@@ -94,8 +100,44 @@ public class VisibleBody {
         return actualCelestialBody.getPosition();
     }
 
+    public Color getColor() {
+        return color;
+    }
+
     public String getName(){
         return actualCelestialBody.getName();
+    }
+
+    private Color chooseColor(String bodyName){
+        Color c = Color.GRAY;
+        if(bodyName.equals("Sun")){
+            c = Color.YELLOW;
+        }
+        if(bodyName.equals("Mercury")){
+            c = Color.ORANGE;
+        }
+        if(bodyName.equals("Venus")){
+            c = Color.lightGray;
+        }
+        if(bodyName.equals("Earth")){
+            c = Color.BLUE;
+        }
+        if(bodyName.equals("Mars")){
+            c = Color.ORANGE;
+        }
+        if(bodyName.equals("Jupiter")){
+            c = Color.ORANGE;
+        }
+        if(bodyName.equals("Saturn")){
+            c = Color.YELLOW;
+        }
+        if(bodyName.equals("Uranus")){
+            c = Color.lightGray;
+        }
+        if(bodyName.equals("Neptune")){
+            c = Color.BLUE;
+        }
+        return c;
     }
 
     /**

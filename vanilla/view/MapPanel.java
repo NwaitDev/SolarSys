@@ -15,6 +15,7 @@ public class MapPanel extends JPanel{
     private int sizePanel;
     private VisibleBody refBody;
     private ArrayList<VisibleBody> satelliteList;
+    private VisibleBody bodyWithTooltip;
 
     //ratio here not to recalculate ratio for every
     private double ratioFarthest;
@@ -44,6 +45,20 @@ public class MapPanel extends JPanel{
         ratioDiameter = calculRatioDiameter();
         //set diameter according to previously calculated ratio for all visible bodies
         setDiameterVisibleBodies();
+
+
+        //TEST
+        // Iterator<VisibleBody> satelliteIter = satelliteList.iterator();
+        // int x=(int)(this.getSize().getHeight()/2);
+        // int y=(int)(this.getSize().getHeight()/2);
+        // double distBetween = this.getSize().getWidth() / 2 / satelliteList.size();
+        // while (satelliteIter.hasNext()){
+        //     VisibleBody currBody = satelliteIter.next();
+        //     currBody.setPos(x,y);
+            
+        //     x+= distBetween ;
+        //     y+= distBetween;
+        // }
         
     }
 
@@ -81,6 +96,7 @@ public class MapPanel extends JPanel{
             prevRealRadius = prevBody.getRealDiameter()/2;
             //prevRealPos = prevBody.getRealPosition();
             prevDist = prevBody.getDistance(this);
+            minRatio = (Math.min(this.getSize().getWidth(), this.getSize().getHeight())/4) /  prevRealRadius ; // min ratio initialization in the case of one satellite
         }
 
         VisibleBody currBody;
@@ -89,22 +105,17 @@ public class MapPanel extends JPanel{
         while (satelliteIter.hasNext()){
             currBody = satelliteIter.next();
             currRealRadius = currBody.getRealDiameter()/2;
-            //currRealPos = currBody.getRealPosition();
             currDist = currBody.getDistance(this);
 
 
-             double distBetween = Math.sqrt(Math.pow( Math.abs(prevBody.getxPos() - currBody.getxPos()), 2) + Math.pow(Math.abs(prevBody.getyPos() - currBody.getyPos()), 2));
+            double distBetween = Math.sqrt(Math.pow( Math.abs(prevBody.getxPos() - currBody.getxPos()), 2) + Math.pow(Math.abs(prevBody.getyPos() - currBody.getyPos()), 2));
             // System.out.println(distBetween);
+            //double distBetween = this.getSize().getWidth() / 2 / satelliteList.size();
             
-            //double x = (100 * (prevRealRadius + currRealRadius)) / distBetween;
-           // double distBetween = currDist - prevDist;
             double newMaxRadius = (distBetween * Math.max(prevRealRadius , currRealRadius)) / (prevRealRadius + currRealRadius);
             currRatio = newMaxRadius / Math.max(prevRealRadius , currRealRadius);
             
             if ( currRatio < minRatio){
-                // System.out.print(currBody);
-                // System.out.print("    dist  : " + distBetween + "   r1 : " + prevRealRadius + "    r2   : " + currRealRadius);
-                // System.out.println("    " + prevBody);
                 minRatio = currRatio;
             }
 
@@ -138,6 +149,10 @@ public class MapPanel extends JPanel{
 
     public double getRatioDiameter(){
         return this.ratioDiameter;
+    }
+
+    public void  printTooltip(VisibleBody body){
+
     }
 
     /*********************** REPERE *********************/
@@ -192,10 +207,13 @@ public class MapPanel extends JPanel{
         // planetes :
         Iterator<VisibleBody> IterSatelliteList = satelliteList.iterator();
 
+
+        //TODO visible body pour soleil
         g2d.setColor(chooseColor(getRefBody().getName()));
         g2d.setFont(new Font("Purisa", Font.PLAIN, 13));
 
         //draw Reference
+        //int refWidth = (int) (referenceFrame.getDiameter() * ratioDiameter);
         int refWidth = 30;
         drawOval(g2d, sizePanel/2, sizePanel/2, refWidth, refWidth);
 
@@ -208,7 +226,7 @@ public class MapPanel extends JPanel{
             int w = curr.getDiameter();
             //int w =15;
 
-            g2d.setColor(chooseColor(curr.getName()));
+            g2d.setColor(curr.getColor());
             drawOval(g2d, x, y, w, w);
 
             String name= curr.getName();
