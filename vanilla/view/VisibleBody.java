@@ -174,19 +174,16 @@ public class VisibleBody {
         int l = txtBuffer.length();
         for(int i = 0; i<l; i++){
             if(ptr>maxWidth){
-                switch (txtBuffer.charAt(i)) {
-                    case ' ':
-                        txtBuffer.insert(i+1,'\n');
-                        ptr = 0;
-                        break;
-                    case '\n':
-                        ptr = 0;
-                        break;
-                    default:
-                        break;
+                if(txtBuffer.charAt(i)==' ') {
+                    txtBuffer.insert(i+1,'\n');
+                    ptr = 0;
                 }
             }else{
-                ptr++;
+                if (txtBuffer.charAt(i)=='\n') {
+                    ptr = 0;
+                }else{
+                    ptr++;
+                }
             }
         }
         return txtBuffer.toString();
@@ -203,8 +200,8 @@ public class VisibleBody {
 
     public String usefullDataTooltipToString(int width){
         return format("Name : "+actualCelestialBody.getName() +
-                "\nDiameter : "+actualCelestialBody.getDiameter()+
+                "\nDiameter : "+actualCelestialBody.getDiameter()+" km"+
                 "\nAverage distance to "+actualCelestialBody.getReferenceFrame()+" :\n "+
-                actualCelestialBody.getDistanceFromOrigin(),width);
+                actualCelestialBody.getDistanceFromOrigin()+" km",width);
     }
 }
