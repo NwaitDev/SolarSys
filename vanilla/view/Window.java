@@ -10,7 +10,12 @@ import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JLabel;
 import javax.swing.event.MouseInputListener;
+import java.awt.event.*;
+
+
+import java.awt.event.MouseEvent;
 
 import vanilla.controller.MapListener;
 import vanilla.model.CelestialBody;
@@ -23,7 +28,7 @@ public class Window extends JFrame{
     private ArrayList<JPanel> panels;
 
 
-    public void addMapPanel(CelestialBody centricBody){
+    public MapPanel addMapPanel(CelestialBody centricBody){
         MapPanel map = new MapPanel(centricBody, sizeMap);
         map.setBackground(Color.BLACK);
         panels.add(map);
@@ -31,6 +36,31 @@ public class Window extends JFrame{
         MouseInputListener listener = new MapListener(map);
         map.addMouseListener(listener);
         map.addMouseMotionListener(listener);
+        return map;
+    }
+
+    public void addPanelInfo(CelestialBody body, MapPanel map){
+        JPanel info = new JPanel();
+        info.setLayout(new BorderLayout());
+        info.setBackground(Color.GRAY);
+        VisibleBody vBody = new VisibleBody(map,body);
+        info.add(new JLabel(vBody.usefullDataToString()));
+        info.setVisible(false);
+
+        JButton but =new JButton("Informations");
+        
+        but.setVisible(true);
+        panels.get(0).add(but, BorderLayout.WEST);
+
+        panels.add(info);
+        panels.get(0).add(info);
+
+        but.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                info.setVisible(!(info.isVisible()));
+            }
+        });
+        
     }
 
     public Window(CelestialBody s){
@@ -41,7 +71,8 @@ public class Window extends JFrame{
         content.setLayout(new BorderLayout());
         panels = new ArrayList<JPanel>();
 
-        addMapPanel(s);
+        MapPanel map = addMapPanel(s);
+        addPanelInfo(s , map);
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setVisible(true);
