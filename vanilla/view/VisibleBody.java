@@ -158,7 +158,10 @@ public class VisibleBody {
     }
 
     /**
-     * action plaçant des retours à la ligne dans une chaîne de caractères
+     * C'est une fonction à qui du donnes une String txt et un int x. 
+     * La fonction parcourt txt en comptant les caractères. 
+     * A partir du moment où elle a compté plus de x caractères, 
+     * elle attend de tomber sur un espace pour le remplacer par un retour à la ligne et se remettre à compter les caractères.
      * @param txt la chaîne à formater
      * @param maxWidth le nombre de caractères minimum avant un retour à la ligne
      */
@@ -171,9 +174,16 @@ public class VisibleBody {
         int l = txtBuffer.length();
         for(int i = 0; i<l; i++){
             if(ptr>maxWidth){
-                if(txtBuffer.charAt(i)==' '){
-                    txtBuffer.insert(i+1,'\n');
-                    ptr = 0;
+                switch (txtBuffer.charAt(i)) {
+                    case ' ':
+                        txtBuffer.insert(i+1,'\n');
+                        ptr = 0;
+                        break;
+                    case '\n':
+                        ptr = 0;
+                        break;
+                    default:
+                        break;
                 }
             }else{
                 ptr++;
