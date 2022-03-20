@@ -39,8 +39,6 @@ public class MapPanel extends JPanel{
         refAtRatio = false;
 
        ratioFarthest =  0.8 * ( (Math.min(this.getSize().getWidth(), this.getSize().getHeight())/2) /   (this.getReferenceFrame().getFarthest())); 
-        ratioFarthest =  0.8 * ( (Math.min(this.getSize().getWidth(), this.getSize().getHeight())/2) /   (this.getReferenceFrame().getFarthest())); 
-       ratioFarthest =  0.8 * ( (Math.min(this.getSize().getWidth(), this.getSize().getHeight())/2) /   (this.getReferenceFrame().getFarthest())); 
         
 
         this.satelliteList = new ArrayList<>();
@@ -190,6 +188,7 @@ public class MapPanel extends JPanel{
         return minRatio;
     }
 
+
     public void setDiameterVisibleBodies(){
         Iterator<VisibleBody> satelliteIter = satelliteList.iterator();
         while (satelliteIter.hasNext()){
@@ -214,7 +213,29 @@ public class MapPanel extends JPanel{
         return this.ratioDiameter;
     }
 
-    public void  printTooltip(VisibleBody body){
+    public void  setTooltipBody(VisibleBody body){
+        this.bodyWithTooltip = body;
+    }
+
+    private void drawStringForTooltip(Graphics g, String text, int x, int y) {
+        for (String line : text.split("\n")){
+            g.drawString(line, x, y += g.getFontMetrics().getHeight());
+        }
+    }
+
+    private void  printTooltip(Graphics2D g2d){
+        VisibleBody body = bodyWithTooltip;
+        if (body == null){
+            return;
+        }
+        
+        String tooltip = body.usefullDataTooltipToString(30);
+        g2d.setColor(Color.BLACK);
+        g2d.fillRoundRect(body.getxPos()-105, body.getyPos()-100-body.getDiameter()/2, 210,100, 8,8);
+        g2d.setColor(body.getColor());
+        g2d.drawRoundRect(body.getxPos()-105, body.getyPos()-100-body.getDiameter()/2, 210,100, 8, 8);
+        
+        drawStringForTooltip(g2d, tooltip, (body.getxPos()-100), (body.getyPos()-90-body.getDiameter()/2));
 
     }
 
@@ -278,7 +299,7 @@ public class MapPanel extends JPanel{
         //draw Reference
         //int refWidth = (int) (referenceFrame.getDiameter() * ratioDiameter);
         
-        int refWidth = refAtRatio ? (int) (referenceFrame.getDiameter() * ratioDiameter) : 30;
+        int refWidth = refAtRatio ? (int) (referenceFrame.getDiameter() * ratioDiameter) : 40;
         drawOval(g2d, sizePanel/2, sizePanel/2, refWidth, refWidth);
 
         int h=0;
@@ -295,7 +316,7 @@ public class MapPanel extends JPanel{
 
             String name= curr.getName();
             g2d.setColor(Color.red);
-            g2d.drawString(name, x, y);
+            //g2d.drawString(name, x, y);
             g2d.setColor(Color.blue);
             
             //debug
@@ -308,6 +329,7 @@ public class MapPanel extends JPanel{
             
         }
 
+        printTooltip(g2d);
         //System.out.println(ratioDiameter);
 
 
@@ -331,7 +353,6 @@ public class MapPanel extends JPanel{
         // g2d.drawString( Double.toString(ratioDiameter), 200, 500);
         
     }
-
 
     @Override
     public void paintComponent(Graphics g) {

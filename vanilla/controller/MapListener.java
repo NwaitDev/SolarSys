@@ -49,14 +49,7 @@ public class MapListener implements MouseInputListener {
     @Override
     public void mouseEntered(MouseEvent e) {
         
-        // for (VisibleBody body : satList) {
-        //     Point pos = e.getPoint();
-        //     double distance = Math.sqrt((pos.x - body.getxPos())*(pos.x - body.getxPos())+(pos.y - body.getyPos())*(pos.y - body.getyPos()));
-        //     if(distance<1+body.getDiameter()/2){ //Le +1, c'est pour avoir une chance de cliquer sur pluton et mercure mdr
-        //         VisibleBody.selected = body;
-        //         new Window(mp.getReferenceFrame());
-        //     }
-        // }
+        
     }
 
     @Override
@@ -73,8 +66,21 @@ public class MapListener implements MouseInputListener {
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        // TODO Auto-generated method stub
-        
+        for (VisibleBody body : satList) {
+            Point pos = e.getPoint();
+            double distance = Math.sqrt((pos.x - body.getxPos())*(pos.x - body.getxPos())+(pos.y - body.getyPos())*(pos.y - body.getyPos()));
+            if(distance<1+body.getDiameter()/2){ //Le +1, c'est pour avoir une chance de cliquer sur pluton et mercure mdr
+                VisibleBody.selected = body;
+                //afficher tooltip
+                mp.setTooltipBody(body);
+                mp.repaint();
+                return;
+            }
+        }
+
+        //Raffraichir page
+        mp.setTooltipBody(null);
+        mp.repaint();
     }
 
     

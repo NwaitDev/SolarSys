@@ -30,6 +30,7 @@ public class Window extends JFrame{
         content.add(map);
         MouseInputListener listener = new MapListener(map);
         map.addMouseListener(listener);
+        map.addMouseMotionListener(listener);
     }
 
     public Window(CelestialBody s){
