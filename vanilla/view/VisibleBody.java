@@ -204,7 +204,7 @@ public class VisibleBody {
     public String usefullDataTooltipToString(int width){
         return format("Name : "+actualCelestialBody.getName() +
                 "\nDiameter : "+actualCelestialBody.getDiameter()+
-                "\nAverage distance to "+actualCelestialBody.getReferenceFrame()+" : "+
+                "\nAverage distance to "+actualCelestialBody.getReferenceFrame()+" :\n "+
                 actualCelestialBody.getDistanceFromOrigin(),width);
     }
 }
