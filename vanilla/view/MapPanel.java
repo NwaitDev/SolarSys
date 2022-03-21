@@ -150,7 +150,7 @@ public class MapPanel extends JPanel{
             currRealRadius = currBody.getRealDiameter()/2;
             currDist = currBody.getDistance(this);
             if (refAtRatio){
-                double newMaxRadius = (distanceBetweenConst * Math.max(prevRealRadius , currRealRadius)) / (prevRealRadius + currRealRadius);
+                double newMaxRadius = ((distanceBetweenConst*0.9) * Math.max(prevRealRadius , currRealRadius)) / (prevRealRadius + currRealRadius);
                 minRatio = newMaxRadius / Math.max(prevRealRadius , currRealRadius);
             }else{
                 minRatio = (Math.min(this.getSize().getWidth(), this.getSize().getHeight())/4) /  currRealRadius ; // min ratio initialization in the case of one satellite
@@ -169,7 +169,7 @@ public class MapPanel extends JPanel{
 
             //double distBetween = Math.sqrt(Math.pow( Math.abs(prevBody.getxPos() - currBody.getxPos()), 2) + Math.pow(Math.abs(prevBody.getyPos() - currBody.getyPos()), 2));
             // System.out.println(distBetween);
-            double distBetween = distanceBetweenConst;
+            double distBetween = (distanceBetweenConst*0.9);
             
             double newMaxRadius = (distBetween * Math.max(prevRealRadius , currRealRadius)) / (prevRealRadius + currRealRadius);
             currRatio = newMaxRadius / Math.max(prevRealRadius , currRealRadius);
