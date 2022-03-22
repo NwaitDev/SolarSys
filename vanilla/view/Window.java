@@ -44,7 +44,10 @@ public class Window extends JFrame{
         info.setLayout(new BorderLayout());
         info.setBackground(Color.GRAY);
         VisibleBody vBody = new VisibleBody(map,body);
-        info.add(new JLabel(vBody.usefullDataToString()));
+        JLabel lab = new JLabel(vBody.usefullDataToString());
+        lab.setPreferredSize(new Dimension(200, 200));
+        info.add(lab);
+        
         info.setVisible(false);
 
         JButton but =new JButton("Informations");
@@ -72,7 +75,7 @@ public class Window extends JFrame{
         panels = new ArrayList<JPanel>();
 
         MapPanel map = addMapPanel(s);
-        addPanelInfo(s , map);
+        //addPanelInfo(s , map);
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setVisible(true);
