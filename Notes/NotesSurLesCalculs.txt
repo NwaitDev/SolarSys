@@ -17,3 +17,6 @@ Ellipse :
 BON : Dans l'idée, il y a deux types de coordonnées que l'on peut utiliser, 
 les coordonées cartésiennes, qui nous sont désormais assez familières, c'est celles qu'on utilise en physique
 les coordonnées kepleriennes, qui servent à décrire les coniques. 
+
+REFS ELLIPSE :
+The National Security Space Institute (NSSI) captures d'écran

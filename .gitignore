@@ -1,3 +1,4 @@
-bodies/*.json
+*.json
 *.class
 bodies
+imagesRapport
