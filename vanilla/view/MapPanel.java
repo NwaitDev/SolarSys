@@ -16,6 +16,7 @@ public class MapPanel extends JPanel{
     private VisibleBody refBody;
     private ArrayList<VisibleBody> satelliteList;
     private VisibleBody bodyWithTooltip;
+    static private final int DEFAULT_REF_WIDTH= 40; 
 
     //ratio here not to recalculate ratio for every
     private double ratioFarthest;
@@ -183,8 +184,11 @@ public class MapPanel extends JPanel{
             prevDist = currDist;
         }
 
+        //si le ratio fait que le satellite est plus grand que l'astre de référence, on réduit le ratio
+        while (this.getbiggestDiameter()*minRatio > DEFAULT_REF_WIDTH) {
+            minRatio -=5;
+        }
         
-
         return minRatio;
     }
 
@@ -299,7 +303,7 @@ public class MapPanel extends JPanel{
         //draw Reference
         //int refWidth = (int) (referenceFrame.getDiameter() * ratioDiameter);
         
-        int refWidth = refAtRatio ? (int) (referenceFrame.getDiameter() * ratioDiameter) : 40;
+        int refWidth = refAtRatio ? (int) (referenceFrame.getDiameter() * ratioDiameter) : DEFAULT_REF_WIDTH;
         drawOval(g2d, sizePanel/2, sizePanel/2, refWidth, refWidth);
 
         int h=0;
