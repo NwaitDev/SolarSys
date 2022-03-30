@@ -184,10 +184,14 @@ public class MapPanel extends JPanel{
             prevDist = currDist;
         }
 
-        //si le ratio fait que le satellite est plus grand que l'astre de référence, on réduit le ratio
-        while (this.getbiggestDiameter()*minRatio > DEFAULT_REF_WIDTH) {
-            minRatio -=5;
+        if (!refAtRatio) {
+            //si le ratio fait que le satellite est plus grand que l'astre de référence, on réduit le ratio
+            while (this.getbiggestDiameter()*minRatio > DEFAULT_REF_WIDTH) {
+                minRatio -=5;
+            }
         }
+        
+        
         
         return minRatio;
     }
